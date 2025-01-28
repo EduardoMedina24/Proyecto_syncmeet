@@ -1,0 +1,102 @@
+.carousel-container {
+    width: 100%;
+    max-width: 600px; /* Tamaño máximo del carrusel */
+    margin: 0 auto; /* Centra el carrusel */
+    position: relative;
+  }
+  
+  .carousel-slide {
+    width: 100%;
+    
+    overflow: hidden;
+  }
+  
+  .carousel-image {
+    width: 820px;
+    
+    height: 400px; /* Establece una altura fija para las imágenes */
+    object-fit: cover; /* Asegura que todas las imágenes se ajusten al contenedor, recortando si es necesario */
+  }
+  
+  .carousel-controls {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+  }
+  
+  .carousel-prev,
+  .carousel-next {
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    font-size: 2rem;
+    padding: 0.5rem;
+    cursor: pointer;
+  }
+  
+  .carousel-prev:hover,
+  .carousel-next:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
+ 
+  .card-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+    gap: 10px; /* Espacio entre las tarjetas */
+    margin-top: 1rem;
+  }
+  
+  .card {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden; /* Recorta cualquier contenido que exceda el borde */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center; /* Centra el texto */
+  }
+  
+  .card img {
+    width: 100%; /* Ajusta la imagen al ancho del contenedor */
+    height: auto; /* Mantiene las proporciones de la imagen */
+  }
+  
+  .card p {
+    margin: 0.5rem 0; /* Espacio alrededor del texto */
+    font-size: 1rem; /* Ajusta el tamaño del texto */
+    color: #333; /* Color del texto */
+  }
+  
+  .text-right {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column; /* Apila los elementos verticalmente */
+    justify-content: center; /* Centra verticalmente */
+    align-items: center; /* Centra horizontalmente */
+    width: 20%;
+    text-align: center;
+    color: rgb(0, 0, 0);
+    font-size: 1.2rem;
+    padding: 1rem;
+    border: 2px solid red; /* Borde rojo para visualizar el contenedor */
+  }
+  .text-left{
+    position: absolute;
+    top: 0; /* Asegura que empiece desde la parte superior */
+    bottom: 0; /* Asegura que ocupe todo el alto */
+    display: flex; /* Usamos flexbox para centrar el texto */
+    justify-content: center; /* Centra el texto horizontalmente */
+    align-items: center; /* Centra el texto verticalmente */
+    width: 20%; /* Ajusta el tamaño según sea necesario */
+    text-align: center;
+    color: rgb(0, 0, 0);
+    font-size: 1.2rem; /* Ajusta el tamaño de fuente */
+    padding: 1rem;
+    border: 2px solid red; /* Borde rojo para asegurar que el contenedor está visible */
+  }
+  
+  
