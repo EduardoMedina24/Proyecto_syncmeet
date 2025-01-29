@@ -1,0 +1,8 @@
+{
+    "scripts": {
+      "start:frontend": "cd frontend && npm run dev",
+      "start:backend": "cd backend && nodemon server.js",
+      "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\""
+    }
+  }
+  

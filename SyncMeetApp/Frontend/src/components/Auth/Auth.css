@@ -35,7 +35,7 @@
     display: flex;
     justify-content: center;
     align-items: flex-start; /* Cambié a flex-start para que el formulario se quede en la parte superior */
-    height: auto;  /* Esto evitará que se estire y se quede demasiado bajo */
+    height: 100%;  /* Esto evitará que se estire y se quede demasiado bajo */
     max-height: 80%; /* Limita la altura máxima para que el formulario no se sobrepase */
     flex-direction: column;
     width: 60%;  /* Ajusta el tamaño del formulario */
@@ -100,4 +100,10 @@ form {
     text-decoration: underline;
   }
   
-  /* Estilos adicionales para los encabezados del formulario */
+ 
+  .error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+  

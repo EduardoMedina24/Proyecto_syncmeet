@@ -1,25 +1,55 @@
-// Eliminar esta importación si ya no se necesita
 import './Auth.css';
 import TextLeft from '../Carousel/TextLeft';
 import TextRight from '../Carousel/TextRight';
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'; // Importar Link
+import { Link } from 'react-router-dom';
 
-function Login() { // No es necesario pasar `setView` como prop
+function Login() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
+  // Manejo del envío del formulario
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Inicio de sesión exitoso");
+  
+    if (!email || !password) {
+      setError('Por favor, completa todos los campos.');
+      return;
+    }
+  
+    try {
+      const response = await fetch('http://localhost:5000/api/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+  
+      const data = await response.json();
+  
+      if (data.message === 'Login exitoso') {
+        alert('Inicio de sesión exitoso');
+        // Aquí puedes redirigir o realizar otras acciones
+      } else {
+        setError('Correo o contraseña incorrectos.');
+      }
+    } catch (error) {
+      console.error(error);
+      setError('Hubo un problema al autenticarte. Intenta nuevamente.');
+    }
   };
+  
+  
 
   // Cambiar el índice automáticamente cada 3 segundos
   useEffect(() => {
     const intervalId = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % 3); // Cambia al siguiente índice
-    }, 3000); // Cada 3 segundos (3000ms)
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % 3);
+    }, 3000);
 
-    // Limpiar el intervalo cuando el componente se desmonte
     return () => clearInterval(intervalId);
   }, []);
 
@@ -34,14 +64,31 @@ function Login() { // No es necesario pasar `setView` como prop
         <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="email">Correo Electrónico:</label>
-            <input type="email" id="email" placeholder="Ingresa tu correo" required />
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Ingresa tu correo"
+              required
+            />
           </div>
           <div>
             <label htmlFor="password">Contraseña:</label>
-            <input type="password" id="password" placeholder="Ingresa tu contraseña" required />
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Ingresa tu contraseña"
+              required
+            />
           </div>
           <button type="submit" className="button login">Entrar</button>
-          
+
+          {/* Mostrar mensaje de error */}
+          {error && <p className="error-message">{error}</p>}
+
           <p>¿No tienes cuenta? <Link to="/auth?view=register" className="link">Regístrate</Link></p>
         </form>
       </div>
