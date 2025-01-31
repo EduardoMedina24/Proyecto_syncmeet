@@ -2,6 +2,7 @@ require('dotenv').config(); // Carga variables de entorno desde .env
 const express = require('express');
 const mongoose = require('mongoose');
 const userRoutes = require('./routes/userRoutes');
+const reunionRoutes = require('./routes/reunionRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -26,6 +27,7 @@ mongoose
 
 // Rutas de usuarios
 app.use('/api/users', userRoutes);
+app.use('/api/reuniones', reunionRoutes);
 
 // Ruta simple de prueba
 app.get('/', (req, res) => {

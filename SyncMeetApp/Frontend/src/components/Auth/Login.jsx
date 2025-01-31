@@ -3,14 +3,16 @@ import TextLeft from '../Carousel/TextLeft';
 import TextRight from '../Carousel/TextRight';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-function Login() {
+
+const Login = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();  // Inicializa useNavigate
 
-  // Manejo del envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
   
@@ -32,7 +34,8 @@ function Login() {
   
       if (data.message === 'Login exitoso') {
         alert('Inicio de sesión exitoso');
-        // Aquí puedes redirigir o realizar otras acciones
+        localStorage.setItem('token', data.token); // Guarda el token en el localStorage
+        navigate('/calendar');  // Redirige al calendario después del login
       } else {
         setError('Correo o contraseña incorrectos.');
       }
