@@ -28,7 +28,8 @@
     display: flex;
     align-items: center;  /* Cambié stretch por center para evitar el estiramiento no deseado */
     justify-content: center;
-    height: 100%;  /* Asegura que ocupe toda la altura disponible */
+    height: 100%;
+    gap: 13rem;   /* Asegura que ocupe toda la altura disponible */
   }
   
   .form-container {
