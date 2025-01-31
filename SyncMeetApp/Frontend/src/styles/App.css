@@ -28,13 +28,6 @@ main {
   overflow: hidden; /* Evita que el contenido se desborde */
 }
 
-.footer {
-  background-color: #333;
-  color: white;
-  padding: 1rem;
-  text-align: center;
-  width: 100%; /* Asegura que ocupe todo el ancho */
-}
 
 .carousel-wrapper {
   display: flex;

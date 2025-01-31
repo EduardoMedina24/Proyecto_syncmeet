@@ -64,23 +64,40 @@
     text-align: center;
   }
   
+  .meeting-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    overflow-y: auto; /* Habilitar scroll si hay demasiadas tarjetas */
+    max-height: 400px; /* Ajusta la altura máxima si lo deseas */
+  }
+  
   .meeting-card {
-    background: white;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .meeting-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .meeting-card.expanded {
+    background-color: #e0f7fa;
+    transform: scale(1.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   }
   
   .meeting-card h3 {
-    margin: 0;
-    font-size: 16px;
-    color: #333;
+    font-size: 18px;
+    margin-bottom: 10px;
   }
   
   .meeting-card p {
-    margin: 5px 0 0;
     font-size: 14px;
-    color: #666;
+    color: #555;
   }
   
