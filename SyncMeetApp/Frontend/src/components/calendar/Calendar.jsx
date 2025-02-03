@@ -2,13 +2,10 @@ import { useEffect, useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment';
-import 'moment/locale/es'; // Asegúrate de que Moment.js esté en español
+import 'moment/locale/es';
 import './Calendar.css';
 
-// Establece Moment.js en español
 moment.locale('es'); 
-
-// Crea el localizador para react-big-calendar con Moment.js
 const localizer = momentLocalizer(moment);
 
 const messages = {
@@ -25,27 +22,6 @@ const messages = {
   event: 'Evento',
   noEventsInRange: 'No hay eventos en este rango',
   showMore: (total) => `+ Ver más (${total})`,
-  // Traducción de los días de la semana
-  sunday: 'Domingo',
-  monday: 'Lunes',
-  tuesday: 'Martes',
-  wednesday: 'Miércoles',
-  thursday: 'Jueves',
-  friday: 'Viernes',
-  saturday: 'Sábado',
-  // Traducción de los meses
-  january: 'Enero',
-  february: 'Febrero',
-  march: 'Marzo',
-  april: 'Abril',
-  may: 'Mayo',
-  june: 'Junio',
-  july: 'Julio',
-  august: 'Agosto',
-  september: 'Septiembre',
-  october: 'Octubre',
-  november: 'Noviembre',
-  december: 'Diciembre',
 };
 
 const CalendarComponent = () => {
@@ -53,14 +29,13 @@ const CalendarComponent = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [start, setStart] = useState('');
+  const [link, setLink] = useState('');
   const [selectedDate, setSelectedDate] = useState(null);
   const [filteredEvents, setFilteredEvents] = useState([]);
-  const [expandedEvent, setExpandedEvent] = useState(null); // Para la tarjeta expandida
-  const [synth, setSynth] = useState(null); // Para la síntesis de voz
-
   const token = localStorage.getItem('token');
 
-  useEffect(() => {
+  // Obtener eventos desde el backend
+  const fetchEvents = () => {
     fetch('http://localhost:5000/api/reuniones', {
       headers: { 'Authorization': `Bearer ${token}` },
     })
@@ -72,19 +47,54 @@ const CalendarComponent = () => {
           start: new Date(event.fechaInicio),
           end: new Date(event.fechaFin),
           description: event.descripcion,
+          enlace: event.urlReunion,
         }));
         setEvents(formattedEvents);
       })
       .catch(error => console.error('Error al obtener reuniones:', error));
-  }, [token]);
-
-  const handleSelectSlot = (slotInfo) => {
-    const selected = moment(slotInfo.start).format('YYYY-MM-DD');
-    setSelectedDate(selected);
-    setStart(`${selected}T09:00`);
-    setFilteredEvents(events.filter(event => moment(event.start).format('YYYY-MM-DD') === selected));
   };
 
+  useEffect(() => {
+    fetchEvents();
+  }, [token]);
+
+  // Traduce fecha al español
+  const translateDateToSpanish = (date) => {
+    const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+    const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+    return `${dayNames[date.getDay()]}, ${date.getDate()} de ${monthNames[date.getMonth()]} de ${date.getFullYear()}`;
+  };
+
+  // Formatea la hora a formato legible en español
+  const formatHour = (date) => {
+    return moment(date).format('h:mm A'); // Formato 24 horas
+  };
+
+  // Función para leer los detalles de una reunión
+  const speakDetails = (event) => {
+    const synth = window.speechSynthesis;
+    synth.cancel(); // Detener cualquier síntesis anterior
+
+    const startDate = translateDateToSpanish(new Date(event.start));
+    const startTime = formatHour(new Date(event.start));
+
+    const utterance = new SpeechSynthesisUtterance(`Tu evento es: ${event.title}, el día ${startDate} a las ${startTime}. Descripción: ${event.description}`);
+    utterance.lang = 'es-ES';
+
+    synth.speak(utterance);
+  };
+
+  // Manejar la selección de una fecha en el calendario
+  const handleSelectSlot = (slotInfo) => {
+    const selected = moment(slotInfo.start).format('YYYY-MM-DDTHH:mm'); // Formato compatible con datetime-local
+    setSelectedDate(selected);
+    setStart(selected);
+    const newFilteredEvents = events.filter(event => moment(event.start).format('YYYY-MM-DD') === moment(slotInfo.start).format('YYYY-MM-DD'));
+    setFilteredEvents(newFilteredEvents);
+  };
+
+  // Enviar una nueva reunión
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -93,6 +103,7 @@ const CalendarComponent = () => {
       descripcion: description,
       fechaInicio: new Date(start),
       fechaFin: new Date(start),
+      enlace: link,
     };
 
     try {
@@ -108,60 +119,17 @@ const CalendarComponent = () => {
       const responseData = await response.json();
 
       if (response.ok) {
-        const savedEvent = { ...newEvent, start: new Date(start), end: new Date(start) };
-        setEvents([...events, savedEvent]);
-        setFilteredEvents([...filteredEvents, savedEvent]);
+        fetchEvents();
         setTitle('');
         setDescription('');
+        setStart('');
+        setLink('');
       } else {
         console.error('Error en la creación de la reunión:', responseData.message);
       }
     } catch (error) {
       console.error('Error al agregar reunión:', error);
     }
-  };
-
-  // Función para detener cualquier síntesis anterior y leer la nueva reunión
-// Función para detener cualquier síntesis anterior y leer la nueva reunión en español
-// Función para traducir la fecha a español
-const translateDateToSpanish = (date) => {
-    const dayNames = [
-      'Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'
-    ];
-    const monthNames = [
-      'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 
-      'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
-    ];
-  
-    const dayOfWeek = dayNames[date.getDay()]; // Obtener el nombre del día
-    const dayOfMonth = date.getDate(); // Obtener el día del mes
-    const month = monthNames[date.getMonth()]; // Obtener el nombre del mes
-    const year = date.getFullYear(); // Obtener el año
-  
-    // Devuelve una cadena en formato: "Día, Día del mes de Mes del Año"
-    return `${dayOfWeek}, ${dayOfMonth} de ${month} de ${year}`;
-  };
-  
-  // Función para detener cualquier síntesis anterior y leer la nueva reunión en español
-  const speakDetails = (event) => {
-    if (synth) {
-      speechSynthesis.cancel(); // Detener cualquier voz anterior
-    }
-  
-    const startDate = translateDateToSpanish(new Date(event.start)); // Traducir la fecha
-  
-    const utterance = new SpeechSynthesisUtterance(`Tu evento es: ${event.title} que será el día ${startDate} y la descripción es: ${event.description}`);
-    utterance.lang = 'es-ES'; // Establecer el idioma de la síntesis a español (España)
-    
-    window.speechSynthesis.speak(utterance);
-    setSynth(utterance); // Guardamos la síntesis para poder detenerla más tarde si es necesario
-  };
-  
-
-
-  const handleCardClick = (event) => {
-    setExpandedEvent(expandedEvent === event.id ? null : event.id); // Toggle expansión
-    speakDetails(event); // Lee los detalles de la reunión
   };
 
   return (
@@ -188,6 +156,12 @@ const translateDateToSpanish = (date) => {
             placeholder="Descripción"
             required
           />
+          <input
+            type="text"
+            value={link}
+            onChange={(e) => setLink(e.target.value)}
+            placeholder="Enlace de reunión virtual"
+          />
           <button type="submit">Guardar</button>
         </form>
       </div>
@@ -201,24 +175,29 @@ const translateDateToSpanish = (date) => {
           selectable
           onSelectSlot={handleSelectSlot}
           style={{ height: '100%' }}
-          messages={messages} // Aquí pasamos las traducciones
-          culture="es" // Esta es la clave para forzar la localización
+          messages={messages}
+          culture="es"
         />
       </div>
 
       <div className="meeting-list">
-        <h2>Reuniones para {selectedDate ? moment(selectedDate).format('LL') : 'selecciona una fecha'}</h2>
+        <h2>Reuniones para {selectedDate ? moment(selectedDate).format('LLL') : 'selecciona una fecha'}</h2>
         {filteredEvents.length > 0 ? (
           <div className="meeting-cards">
             {filteredEvents.map(event => (
               <div 
                 key={event.id} 
-                className={`meeting-card ${expandedEvent === event.id ? 'expanded' : ''}`}
-                onClick={() => handleCardClick(event)}
+                className="meeting-card"
+                onClick={() => speakDetails(event)} // Leer en voz alta cuando se haga clic
               >
                 <h3>{event.title}</h3>
                 <p>{moment(event.start).format('LLL')}</p>
-                <p>{event.description && expandedEvent === event.id ? event.description : 'Click para más detalles'}</p>
+                <p>{event.description}</p>
+                {event.enlace && (
+                  <div className="virtual-link">
+                    <a href={event.enlace} target="_blank" rel="noopener noreferrer">Acceder a la reunión virtual</a>
+                  </div>
+                )}
               </div>
             ))}
           </div>

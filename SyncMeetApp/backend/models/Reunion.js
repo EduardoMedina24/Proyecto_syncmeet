@@ -22,6 +22,10 @@ const reunionSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
+  urlReunion: {
+    type: String,  // Asegúrate de que sea String
+    required: true,  // Si es obligatorio
+  },
 });
 
 const Reunion = mongoose.model('Reunion', reunionSchema);
