@@ -1,103 +1,114 @@
 /* Estilos generales */
 .calendar-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    height: 100vh;
-    padding: 20px;
-    gap: 20px;
-  }
-  
-  /* Formulario a la izquierda */
-  .form-container {
-    width: 25%;
-    background: #f9f9f9;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .form-container h2 {
-    text-align: center;
-  }
-  
-  .form-container input,
-  .form-container button {
-    width: 100%;
-    margin-bottom: 10px;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .form-container button {
-    background: #007bff;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .form-container button:hover {
-    background: #0056b3;
-  }
-  
-  /* Calendario en el centro */
-  .calendar-box {
-    flex-grow: 1;
-    height: 500px;
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Lista de reuniones a la derecha */
-  .meeting-list {
-    width: 25%;
-    background: #f9f9f9;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .meeting-list h2 {
-    text-align: center;
-  }
-  
-  .meeting-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    overflow-y: auto; /* Habilitar scroll si hay demasiadas tarjetas */
-    max-height: 400px; /* Ajusta la altura máxima si lo deseas */
-  }
-  
-  .meeting-card {
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .meeting-card:hover {
-    transform: scale(1.05);
-  }
-  
-  .meeting-card.expanded {
-    background-color: #e0f7fa;
-    transform: scale(1.1);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .meeting-card h3 {
-    font-size: 18px;
-    margin-bottom: 10px;
-  }
-  
-  .meeting-card p {
-    font-size: 14px;
-    color: #555;
-  }
-  
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 100vh;
+  padding: 20px;
+  gap: 20px;
+}
+
+/* Formulario a la izquierda */
+.form-container {
+  width: 25%;
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h2 {
+  text-align: center;
+}
+
+.form-container input,
+.form-container button {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.form-container button {
+  background: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.form-container button:hover {
+  background: #0056b3;
+}
+
+/* Calendario en el centro */
+.calendar-box {
+  flex-grow: 1;
+  height: 500px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Lista de reuniones a la derecha */
+.meeting-list {
+  width: 25%;
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.meeting-list h2 {
+  text-align: center;
+}
+
+.meeting-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+.meeting-card {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.meeting-card:hover {
+  transform: scale(1.05);
+}
+
+/* Estilo para tareas */
+.evento-tarea {
+  background-color: #19bff7;
+  border-left: 4px solid #4CAF50;
+}
+
+.evento-tarea-rojo {
+  background-color: #f8d7da;
+  border-left: 4px solid #dc3545;
+}
+
+/* Estilos para el día actual */
+.rbcToday {
+  background-color: #ffeb3b !important;
+  color: #000 !important;
+  font-weight: bold;
+}
+
+/* Estilos generales para los días */
+.rbcDay {
+  position: relative;
+}
+
+.rbcDay.rbcToday span {
+  font-weight: bold;
+  color: #000;
+}

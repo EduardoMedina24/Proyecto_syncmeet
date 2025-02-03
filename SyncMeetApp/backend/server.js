@@ -3,6 +3,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const userRoutes = require('./routes/userRoutes');
 const reunionRoutes = require('./routes/reunionRoutes');
+const tareaRoutes = require('./routes/tareaRoutes');
+
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -28,7 +30,7 @@ mongoose
 // Rutas de usuarios
 app.use('/api/users', userRoutes);
 app.use('/api/reuniones', reunionRoutes);
-
+app.use('/api/tareas', tareaRoutes);
 // Ruta simple de prueba
 app.get('/', (req, res) => {
   res.send('¡Hola desde el backend!');
