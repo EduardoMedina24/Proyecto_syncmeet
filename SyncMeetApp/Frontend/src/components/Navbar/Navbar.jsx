@@ -1,25 +1,27 @@
-import { Link } from 'react-router-dom'; // Importar Link para navegar
-import PropTypes from 'prop-types'; // Importar PropTypes
-import './Navbar.css'; // Estilos específicos para el Navbar
+import { Link } from "react-router-dom"; // Importar Link para navegar
+import PropTypes from "prop-types"; // Importar PropTypes
+import { Button } from "../ui/button";
+import "./Navbar.css"; // Estilos específicos para el Navbar
 
 function Navbar() {
   return (
-    <nav className="navbar">
-      <div className="navbar-logo">
-        <h1>SyncMeet</h1>
+    <header className="border-b w-full flex justify-center bg-[#bce9ab]">
+      <div className="container flex h-16 items-center justify-between p-5 ">
+        <h1 className="text-2xl font-bold tracking-tight">SyncMeet</h1>
+        <nav className="flex gap-4">
+          <Link to="/">
+            <button className=" nav-btn bg-[#659255] py-2 px-4 rounded-md text-white ">
+              Inicio
+            </button>
+          </Link>
+          <Link to="/auth?view=register">
+            <button className=" nav-btn bg-[#659255] py-2 px-4 rounded-md text-white text-base">
+              Acceder
+            </button>
+          </Link>
+        </nav>
       </div>
-      <ul className="navbar-menu">
-        <li>
-          <Link to="/auth?view=login">Login</Link> {/* Navegar a /auth con view=login */}
-        </li>
-        <li>
-          <Link to="/auth?view=register">Registro</Link> {/* Navegar a /auth con view=register */}
-        </li>
-        <li>
-          <Link to="/">Inicio</Link> {/* Navegar al inicio */}
-        </li>
-      </ul>
-    </nav>
+    </header>
   );
 }
 

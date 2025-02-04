@@ -4,13 +4,13 @@ body {
   background-color: #f9f9f9;
   display: flex;
   flex-direction: column;
-  height: 100vh;  /* Asegura que el body ocupe toda la altura de la pantalla */
+  height: 100vh; /* Asegura que el body ocupe toda la altura de la pantalla */
 }
 
 #root {
   display: flex;
   flex-direction: column;
-  height: 100%;  /* Asegura que el root ocupe toda la altura de la pantalla */
+  height: 100%; /* Asegura que el root ocupe toda la altura de la pantalla */
 }
 
 .navbar {
@@ -20,14 +20,12 @@ body {
   padding: 1rem;
   background-color: #007bff;
   color: white;
-  width: 100%;  /* Esto asegura que ocupe todo el ancho */
+  width: 100%; /* Esto asegura que ocupe todo el ancho */
 }
 
 main {
   flex-grow: 1; /* Esto hace que el main ocupe el espacio restante */
-  overflow: hidden; /* Evita que el contenido se desborde */
 }
-
 
 .carousel-wrapper {
   display: flex;
@@ -39,11 +37,7 @@ main {
 .carousel {
   flex: 1;
   position: relative;
-  
-  
 }
-
-
 
 .text-left {
   left: 0;
@@ -52,7 +46,6 @@ main {
 .text-right {
   right: 0;
 }
-
 
 .auth-section {
   margin-top: 2rem;

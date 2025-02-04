@@ -1,16 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   background-color: #f9f9f9;
   display: flex;
   flex-direction: column;
-  height: 100vh;  /* Asegura que el body ocupe toda la altura de la pantalla */
+  height: 100vh; /* Asegura que el body ocupe toda la altura de la pantalla */
 }
 
 #root {
   display: flex;
   flex-direction: column;
-  height: 100%;  /* Asegura que el root ocupe toda la altura de la pantalla */
+  height: 100%; /* Asegura que el root ocupe toda la altura de la pantalla */
 }
 
 .navbar {
@@ -20,12 +24,7 @@ body {
   padding: 1rem;
   background-color: #007bff;
   color: white;
-  width: 100%;  /* Esto asegura que ocupe todo el ancho */
-}
-
-main {
-  flex-grow: 1; /* Esto hace que el main ocupe el espacio restante */
-  overflow: hidden; /* Evita que el contenido se desborde */
+  width: 100%; /* Esto asegura que ocupe todo el ancho */
 }
 
 .footer {
@@ -40,7 +39,6 @@ main {
   text-align: center;
   padding: 2rem;
 }
-
 
 .auth-section {
   margin-top: 2rem;
@@ -57,10 +55,20 @@ main {
   cursor: pointer;
 }
 
+main {
+  overflow: auto;
+}
+
 .button.login {
   background-color: #007bff;
 }
 
 .button.register {
   background-color: #28a745;
+}
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
 }
