@@ -29,6 +29,7 @@ function TextRight({ currentIndex }) {
             <div className="card">
               <img src="https://picsum.photos/106" alt="Descripción 4" />
               <p>Simplifica</p>
+              
             </div>
         </div>
       </div>

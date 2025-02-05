@@ -6,12 +6,13 @@
   height: 100vh;
   padding: 20px;
   gap: 20px;
+  background-color: #f9f9f9; /* Fondo más claro */
 }
 
 /* Formulario a la izquierda */
 .form-container {
   width: 25%;
-  background: #f9f9f9;
+  background: #ffffff;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -19,6 +20,8 @@
 
 .form-container h2 {
   text-align: center;
+  color: #333;
+  font-size: 1.5rem; /* Tamaño de fuente más grande */
 }
 
 .form-container input,
@@ -28,17 +31,19 @@
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  background-color: #f9f9f9; /* Fondo más claro para los inputs */
 }
 
 .form-container button {
-  background: #007bff;
+  background: #00bcd4; /* Cambiar el color del botón */
   color: white;
   border: none;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .form-container button:hover {
-  background: #0056b3;
+  background: #0097a7; /* Color más oscuro al pasar el mouse */
 }
 
 /* Calendario en el centro */
@@ -54,7 +59,7 @@
 /* Lista de reuniones a la derecha */
 .meeting-list {
   width: 25%;
-  background: #f9f9f9;
+  background: #ffffff;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -62,6 +67,8 @@
 
 .meeting-list h2 {
   text-align: center;
+  color: #333;
+  font-size: 1.5rem; /* Tamaño de fuente más grande */
 }
 
 .meeting-cards {
@@ -73,42 +80,46 @@
 }
 
 .meeting-card {
-  background-color: #f9f9f9;
+  background-color: #ffffff;
   padding: 20px;
   border-radius: 8px;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .meeting-card:hover {
-  transform: scale(1.05);
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Estilo para tareas */
-.evento-tarea {
-  background-color: #19bff7;
-  border-left: 4px solid #4CAF50;
+.meeting-card h3 {
+  margin-top: 0;
+  color: #333;
 }
 
-.evento-tarea-rojo {
-  background-color: #f8d7da;
-  border-left: 4px solid #dc3545;
+.meeting-card p {
+  margin: 5px 0;
+  color: #666;
 }
 
-/* Estilos para el día actual */
-.rbcToday {
-  background-color: #ffeb3b !important;
-  color: #000 !important;
-  font-weight: bold;
+.virtual-link a {
+  color: #00bcd4; /* Cambiar el color del enlace */
+  text-decoration: none; /* Quitar subrayado */
 }
 
-/* Estilos generales para los días */
-.rbcDay {
-  position: relative;
+.virtual-link a:hover {
+  text-decoration: underline; /* Subrayar al pasar el mouse */
 }
 
-.rbcDay.rbcToday span {
-  font-weight: bold;
-  color: #000;
+/* Estilos para los selectores de color */
+.color-select-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.color-select-container div {
+  flex: 1;
 }

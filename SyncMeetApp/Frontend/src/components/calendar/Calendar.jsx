@@ -33,6 +33,8 @@ const CalendarComponent = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [tipoEvento, setTipoEvento] = useState('reunion');
+  const [colorTarea, setColorTarea] = useState('#19bff7');
+  const [colorReunion, setColorReunion] = useState('#4CAF50');
   const token = localStorage.getItem('token');
 
   const fetchEvents = async () => {
@@ -45,10 +47,10 @@ const CalendarComponent = () => {
           headers: { Authorization: `Bearer ${token}` },
         }),
       ]);
-
+  
       const reunionesData = await reunionesResponse.json();
       const tareasData = await tareasResponse.json();
-
+  
       const formattedReuniones = reunionesData.map(event => ({
         id: event._id,
         title: event.titulo,
@@ -56,8 +58,10 @@ const CalendarComponent = () => {
         end: new Date(event.fechaFin),
         description: event.descripcion,
         enlace: event.urlReunion,
+        tipo: 'reunion',
+        color: colorReunion,
       }));
-
+  
       const formattedTareas = tareasData.map(tarea => ({
         id: tarea._id,
         title: tarea.titulo,
@@ -65,17 +69,29 @@ const CalendarComponent = () => {
         end: new Date(tarea.fecha),
         description: tarea.descripcion,
         tipo: 'tarea',
+        color: colorTarea,
       }));
-
-      setEvents([...formattedReuniones, ...formattedTareas]);
+  
+      const updatedEvents = [...formattedReuniones, ...formattedTareas];
+  
+      setEvents(updatedEvents);
+  
+      // **Actualizar los eventos filtrados si hay una fecha seleccionada**
+      if (selectedDate) {
+        const filtered = updatedEvents.filter(
+          (event) => moment(event.start).format('YYYY-MM-DD') === moment(selectedDate).format('YYYY-MM-DD')
+        );
+        setFilteredEvents(filtered);
+      }
     } catch (error) {
       console.error('Error al obtener eventos y tareas:', error);
     }
   };
+  
 
   useEffect(() => {
-    fetchEvents();
-  }, [token]);
+  fetchEvents();
+  }, [token, colorReunion, colorTarea]);
 
   const handleSelectSlot = (slotInfo) => {
     const selected = moment(slotInfo.start).format('YYYY-MM-DDTHH:mm');
@@ -100,11 +116,13 @@ const CalendarComponent = () => {
             fechaInicio: new Date(start),
             fechaFin: new Date(start),
             enlace: link,
+            color: colorReunion,
           }
         : {
             titulo: title,
             descripcion: description,
             fecha: new Date(start),
+            color: colorTarea,
           };
 
     try {
@@ -131,27 +149,94 @@ const CalendarComponent = () => {
     }
   };
 
-  const getEventClassName = (event) => {
-    // Lógica para asignar un color a las tareas
-    if (event.enlace) return ''; // Para reuniones, sin clase especial
-    if (event.tipo === 'tarea') {
-      if (event.title.includes('urgente')) return 'evento-tarea-rojo'; // Si es urgente, asigna rojo
-      return 'evento-tarea'; // Azul claro para las tareas normales
+  const handleEditEvent = async (event) => {
+    const updatedTitle = prompt("Editar título:", event.title);
+    const updatedDescription = prompt("Editar descripción:", event.description);
+    if (!updatedTitle || !updatedDescription) return;
+  
+    const updatedEvent = {
+      titulo: updatedTitle,
+      descripcion: updatedDescription,
+      fechaInicio: event.start,
+      fechaFin: event.end,
+    };
+  
+    try {
+      const response = await fetch(`http://localhost:5000/api/${event.tipo === 'tarea' ? 'tareas' : 'reuniones'}/${event.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(updatedEvent),
+      });
+      const data = await response.json();
+      if (data.success) {
+        fetchEvents(); // Recargar eventos actualizados
+      } else {
+        console.error('Error al actualizar:', data.message);
+      }
+    } catch (error) {
+      console.error('Error al actualizar evento:', error);
     }
-    return '';
+  };
+  
+  const handleDeleteEvent = async (event) => {
+    if (!window.confirm("¿Seguro que deseas eliminar este evento?")) return;
+  
+    try {
+      const response = await fetch(`http://localhost:5000/api/${event.tipo === 'tarea' ? 'tareas' : 'reuniones'}/${event.id}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await response.json();
+      if (data.success) {
+        fetchEvents(); // Recargar eventos después de eliminar
+      } else {
+        console.error('Error al eliminar:', data.message);
+      }
+    } catch (error) {
+      console.error('Error al eliminar evento:', error);
+    }
+  };
+  
+
+  
+  // Traduce fecha al español
+  const translateDateToSpanish = (date) => {
+    const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+    const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+    return `${dayNames[date.getDay()]}, ${date.getDate()} de ${monthNames[date.getMonth()]} de ${date.getFullYear()}`;
   };
 
-  const dayPropGetter = (date) => {
-    const today = moment().startOf('day');
-    const currentDay = moment(date).startOf('day');
-    if (today.isSame(currentDay)) {
-      return {
-        className: 'rbcToday', // Clase personalizada para el día actual
-      };
-    }
-    return {};
+  // Formatea la hora a formato legible en español
+  const formatHour = (date) => {
+    return moment(date).format('h:mm A'); // Formato 24 horas
   };
 
+  // Función para leer los detalles de una reunión
+  const speakDetails = (event) => {
+    const synth = window.speechSynthesis;
+    synth.cancel(); // Detener cualquier síntesis anterior
+
+    const startDate = translateDateToSpanish(new Date(event.start));
+    const startTime = formatHour(new Date(event.start));
+
+    const utterance = new SpeechSynthesisUtterance(`Tu evento es: ${event.title}, el día ${startDate} a las ${startTime}. Descripción: ${event.description}`);
+    utterance.lang = 'es-ES';
+
+    synth.speak(utterance);
+  };
+
+  const getEventStyle = (event) => ({
+    backgroundColor: event.color,
+    border: `1px solid ${event.color}`,
+  });
+
+
+
+  
   return (
     <div className="calendar-container">
       <div className="form-container">
@@ -175,6 +260,36 @@ const CalendarComponent = () => {
           )}
           <button type="submit">Guardar</button>
         </form>
+
+        {/* Selectores de color con 8 opciones */}
+        <div className="color-select-container">
+          <div>
+            <label>Tarea Color: </label>
+            <select value={colorTarea} onChange={(e) => setColorTarea(e.target.value)}>
+              <option value="#19bff7">Azul Claro</option>
+              <option value="#ff0000">Rojo</option>
+              <option value="#ff5733">Naranja</option>
+              <option value="#4CAF50">Verde</option>
+              <option value="#ff9800">Amarillo</option>
+              <option value="#9c27b0">Púrpura</option>
+              <option value="#607d8b">Azul Grisáceo</option>
+              <option value="#f44336">Rojo Intenso</option>
+            </select>
+          </div>
+          <div>
+            <label>Reunión Color: </label>
+            <select value={colorReunion} onChange={(e) => setColorReunion(e.target.value)}>
+              <option value="#4CAF50">Verde</option>
+              <option value="#ff0000">Rojo</option>
+              <option value="#ff5733">Naranja</option>
+              <option value="#19bff7">Azul Claro</option>
+              <option value="#ff9800">Amarillo</option>
+              <option value="#9c27b0">Púrpura</option>
+              <option value="#607d8b">Azul Grisáceo</option>
+              <option value="#f44336">Rojo Intenso</option>
+            </select>
+          </div>
+        </div>
       </div>
 
       <div className="calendar-box">
@@ -185,39 +300,51 @@ const CalendarComponent = () => {
           endAccessor="end"
           selectable
           onSelectSlot={handleSelectSlot}
-          dayPropGetter={dayPropGetter} // Aplicar el getter de propiedades para los días
           style={{ height: '100%' }}
           messages={messages}
           culture="es"
           eventPropGetter={(event) => ({
-            className: getEventClassName(event),
+            style: getEventStyle(event),
           })}
         />
       </div>
 
       <div className="meeting-list">
-        <h2>Eventos para {selectedDate ? moment(selectedDate).format('LLL') : 'selecciona una fecha'}</h2>
-        {filteredEvents.length > 0 ? (
-          <div className="meeting-cards">
-            {filteredEvents.map((event) => (
-              <div key={event.id} className="meeting-card">
-                <h3>{event.title}</h3>
-                <p>{moment(event.start).format('LLL')}</p>
-                <p>{event.description}</p>
-                {event.enlace && (
-                  <div className="virtual-link">
-                    <a href={event.enlace} target="_blank" rel="noopener noreferrer">
-                      Acceder a la reunión virtual
-                    </a>
-                  </div>
-                )}
+  <h2>
+    Eventos para {selectedDate ? moment(selectedDate).format('LLL') : 'selecciona una fecha'}
+  </h2>
+  {filteredEvents.length > 0 ? (
+    <div className="meeting-cards">
+      {filteredEvents.map((event) => (
+        <div key={event.id} className="meeting-card" onClick={() => speakDetails(event)}>
+          <h3>{event.title}</h3>
+          <p>{moment(event.start).format('LLL')}</p>
+          <p>{event.description}</p>
+          {event.enlace && (
+            <>
+              <div className="virtual-link">
+                <a
+                  href={event.enlace}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()} // Evita activar el bot de voz
+                >
+                  Acceder a la reunión virtual
+                </a>
               </div>
-            ))}
-          </div>
-        ) : (
-          <p>No hay eventos programados.</p>
-        )}
-      </div>
+              
+            </>
+          )}
+          <button   onClick={(e) => {e.stopPropagation();  handleEditEvent(event);}} >✏️</button>
+          <button   onClick={(e) => {e.stopPropagation(); handleDeleteEvent(event);}} >🗑️</button>
+        </div>
+      ))}
+    </div>
+  ) : (
+    <p>No hay eventos programados.</p>
+  )}
+</div>
+
     </div>
   );
 };
