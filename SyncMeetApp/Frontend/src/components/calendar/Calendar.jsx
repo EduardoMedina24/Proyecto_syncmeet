@@ -5,6 +5,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment';
 import 'moment/locale/es';
 import './Calendar.css';
+import Draggable from 'react-draggable';
 
 
 moment.locale('es');
@@ -387,17 +388,41 @@ const CalendarComponent = () => {
   </div>
 ))}
 
-{/* Modal único, fuera del map() */}
-<Modal isOpen={modalIsOpen} onRequestClose={closeModal} contentLabel="Editar Evento"
-  className="modal" overlayClassName="modal-overlay">
-  <h2>Editar Evento</h2>
-  <input type="text" value={updatedTitle} onChange={(e) => setUpdatedTitle(e.target.value)} placeholder="Título" />
-  <textarea value={updatedDescription} onChange={(e) => setUpdatedDescription(e.target.value)} placeholder="Descripción" />
-  <div className="modal-actions">
-    <button onClick={handleUpdateEvent}>Guardar</button>
-    <button onClick={closeModal} className="cancel-button">Cancelar</button>
-  </div>
+ {/* Modal */}
+ <Modal
+  isOpen={modalIsOpen}
+  onRequestClose={closeModal}
+  contentLabel="Editar Evento"
+  className="modal"
+  overlayClassName="modal-overlay"
+>
+  <Draggable>
+    <div className="modal1">
+      <div className="modal-header">
+        <h2>Editar Evento</h2>
+        <span className="modal-close" onClick={closeModal}>X</span>
+      </div>
+      <input
+        type="text"
+        value={updatedTitle}
+        onChange={(e) => setUpdatedTitle(e.target.value)}
+        placeholder="Título"
+      />
+      <textarea
+        value={updatedDescription}
+        onChange={(e) => setUpdatedDescription(e.target.value)}
+        placeholder="Descripción"
+      />
+      <div className="modal-actions">
+        <button onClick={handleUpdateEvent}>Guardar</button>
+        <button onClick={closeModal} className="cancel-button">Cancelar</button>
+      </div>
+    </div>
+  </Draggable>
 </Modal>
+
+
+
 
     </div>
   ) : (

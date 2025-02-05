@@ -33,7 +33,7 @@ const Login = () => {
       const data = await response.json();
   
       if (data.message === 'Login exitoso') {
-        alert('Inicio de sesión exitoso');
+        // alert('Inicio de sesión exitoso');
         localStorage.setItem('token', data.token); // Guarda el token en el localStorage
         navigate('/calendar');  // Redirige al calendario después del login
       } else {
