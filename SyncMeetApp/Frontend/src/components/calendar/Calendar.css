@@ -123,3 +123,25 @@
 .color-select-container div {
   flex: 1;
 }
+.modal {
+  background: rgba(255, 255, 255, 1); /* Asegurar que el fondo es completamente opaco */
+  padding: 20px;
+  border-radius: 8px;
+  width: 50%;
+  max-width: 500px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1001; /* Asegurar que esté sobre la superposición */
+}
+
+.modal-overlay {
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000; /* Debe estar por debajo del modal */
+}

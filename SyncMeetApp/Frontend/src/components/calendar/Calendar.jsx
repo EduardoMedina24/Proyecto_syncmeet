@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
+import Modal from 'react-modal';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment';
 import 'moment/locale/es';
 import './Calendar.css';
+
 
 moment.locale('es');
 const localizer = momentLocalizer(moment);
@@ -23,6 +25,7 @@ const messages = {
   noEventsInRange: 'No hay eventos en este rango',
   showMore: (total) => `+ Ver más (${total})`,
 };
+Modal.setAppElement('#root');
 
 const CalendarComponent = () => {
   const [events, setEvents] = useState([]);
@@ -36,7 +39,59 @@ const CalendarComponent = () => {
   const [colorTarea, setColorTarea] = useState('#19bff7');
   const [colorReunion, setColorReunion] = useState('#4CAF50');
   const token = localStorage.getItem('token');
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [currentEvent, setCurrentEvent] = useState(null);
+  const [updatedTitle, setUpdatedTitle] = useState('');
+  const [updatedDescription, setUpdatedDescription] = useState('');
+  const [selectedEvent, setSelectedEvent] = useState(null);
 
+  const openModal = (event) => {
+    setSelectedEvent(event);
+    setCurrentEvent(event); // Agregar esta línea
+    setUpdatedTitle(event.title);
+    setUpdatedDescription(event.description);
+    setModalIsOpen(true);
+  };
+  
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+    setCurrentEvent(null);
+  };
+
+  const handleUpdateEvent = async () => {
+    if (!updatedTitle || !updatedDescription) return;
+    
+    const updatedEvent = {
+      titulo: updatedTitle,
+      descripcion: updatedDescription,
+      fechaInicio: currentEvent.start,
+      fechaFin: currentEvent.end,
+    };
+
+    try {
+      const response = await fetch(`http://localhost:5000/api/${currentEvent.tipo === 'tarea' ? 'tareas' : 'reuniones'}/${currentEvent.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify(updatedEvent),
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        fetchEvents();
+        closeModal();
+      } else {
+        console.error('Error al actualizar:', data.message);
+      }
+    } catch (error) {
+      console.error('Error al actualizar evento:', error);
+    }
+  };
+ 
+  
   const fetchEvents = async () => {
     try {
       const [reunionesResponse, tareasResponse] = await Promise.all([
@@ -315,30 +370,35 @@ const CalendarComponent = () => {
   </h2>
   {filteredEvents.length > 0 ? (
     <div className="meeting-cards">
-      {filteredEvents.map((event) => (
-        <div key={event.id} className="meeting-card" onClick={() => speakDetails(event)}>
-          <h3>{event.title}</h3>
-          <p>{moment(event.start).format('LLL')}</p>
-          <p>{event.description}</p>
-          {event.enlace && (
-            <>
-              <div className="virtual-link">
-                <a
-                  href={event.enlace}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(e) => e.stopPropagation()} // Evita activar el bot de voz
-                >
-                  Acceder a la reunión virtual
-                </a>
-              </div>
-              
-            </>
-          )}
-          <button   onClick={(e) => {e.stopPropagation();  handleEditEvent(event);}} >✏️</button>
-          <button   onClick={(e) => {e.stopPropagation(); handleDeleteEvent(event);}} >🗑️</button>
-        </div>
-      ))}
+{filteredEvents.map((event) => (
+  <div key={event.id} className="meeting-card" onClick={() => speakDetails(event)}>
+    <h3>{event.title}</h3>
+    <p>{moment(event.start).format('LLL')}</p>
+    <p>{event.description}</p>
+    {event.enlace && (
+      <div className="virtual-link">
+        <a href={event.enlace} target="_blank" rel="noopener noreferrer">
+          Acceder a la reunión virtual
+        </a>
+      </div>
+    )}
+    <button onClick={(e) => { e.stopPropagation(); openModal(event); }}>✏️</button>
+    <button onClick={(e) => { e.stopPropagation(); handleDeleteEvent(event); }}>🗑️</button>
+  </div>
+))}
+
+{/* Modal único, fuera del map() */}
+<Modal isOpen={modalIsOpen} onRequestClose={closeModal} contentLabel="Editar Evento"
+  className="modal" overlayClassName="modal-overlay">
+  <h2>Editar Evento</h2>
+  <input type="text" value={updatedTitle} onChange={(e) => setUpdatedTitle(e.target.value)} placeholder="Título" />
+  <textarea value={updatedDescription} onChange={(e) => setUpdatedDescription(e.target.value)} placeholder="Descripción" />
+  <div className="modal-actions">
+    <button onClick={handleUpdateEvent}>Guardar</button>
+    <button onClick={closeModal} className="cancel-button">Cancelar</button>
+  </div>
+</Modal>
+
     </div>
   ) : (
     <p>No hay eventos programados.</p>
