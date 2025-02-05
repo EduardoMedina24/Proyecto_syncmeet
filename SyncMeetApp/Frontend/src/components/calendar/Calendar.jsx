@@ -295,7 +295,7 @@ const CalendarComponent = () => {
   
   return (
     <div className="calendar-container">
-      <div className="form-container">
+      <div className="form-containerr">
         <h2>Programar Evento</h2>
         <select value={tipoEvento} onChange={(e) => setTipoEvento(e.target.value)}>
           <option value="reunion">Reunión</option>

@@ -1,3 +1,49 @@
+/* Animación para el borde circular */
+@keyframes borderAnimation {
+  0% {
+    border-top: 2px dashed #00bcd4;
+    border-right: 2px dashed transparent;
+    border-bottom: 2px dashed transparent;
+    border-left: 2px dashed transparent;
+  }
+  5% {
+    border-top: 2px dashed transparent;
+    border-right: 2px dashed #d44e00;
+    border-bottom: 2px dashed transparent;
+    border-left: 2px dashed transparent;
+  }
+  10% {
+    border-top: 2px dashed transparent;
+    border-right: 2px dashed #d4000b;
+    border-bottom: 2px dashed transparent;
+    border-left: 2px dashed transparent;
+  }
+  25% {
+    border-top: 2px dashed transparent;
+    border-right: 2px dashed #00d423;
+    border-bottom: 2px dashed transparent;
+    border-left: 2px dashed transparent;
+  }
+  50% {
+    border-top: 2px dashed transparent;
+    border-right: 2px dashed transparent;
+    border-bottom: 2px dashed #00bcd4;
+    border-left: 2px dashed transparent;
+  }
+  75% {
+    border-top: 2px dashed transparent;
+    border-right: 2px dashed transparent;
+    border-bottom: 2px dashed transparent;
+    border-left: 2px dashed #d43100;
+  }
+  100% {
+    border-top: 2px dashed #00bcd4;
+    border-right: 2px dashed transparent;
+    border-bottom: 2px dashed transparent;
+    border-left: 2px dashed transparent;
+  }
+}
+
 /* Estilos para TextLeft y TextRight */
 .text-left, .text-right {
   display: flex;
@@ -9,7 +55,7 @@
   color: #333;
   font-size: 1.2rem;
   padding: 1rem;
-  border: 2px solid #ddd; /* Cambiar el borde a un color más suave */
+  border: 2px solid #ddd; /* Borde de guiones */
   position: relative;
   height: 100%;
   background-color: #f9f9f9; /* Fondo más claro */
@@ -18,7 +64,7 @@
 /* Estilos específicos para TextLeft y TextRight en Register */
 .register-container .text-left, 
 .register-container .text-right {
-  background-color: #e0f7fa; /* Cambiar el fondo a un color más moderno */
+  background-color: #e0f7fa; /* Fondo más moderno */
   color: #333;
   border-color: #00bcd4; /* Borde más moderno */
 }
@@ -40,11 +86,12 @@
   height: 100%;
   max-height: 80%;
   flex-direction: column;
-  width: 60%;
-  padding: 2rem;
+  width: 25%;
+  padding: 20px;
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  animation: borderAnimation 2s infinite linear; /* Animación de borde */
 }
 
 h2 {
@@ -55,7 +102,7 @@ h2 {
   font-size: 2rem; /* Tamaño de fuente más grande */
 }
 
-/* Asegurarse de que los elementos de formulario están alineados de manera uniforme */
+/* Asegurarse de que los elementos de formulario estén alineados de manera uniforme */
 form {
   display: flex;
   flex-direction: column;
