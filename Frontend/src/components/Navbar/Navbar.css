@@ -1,0 +1,31 @@
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #007bff;
+    color: white;
+    width: 100%; /* Asegura que el navbar ocupe todo el ancho */
+}
+
+.navbar-logo h1 {
+    margin: 0;
+}
+
+.navbar-menu {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    padding-right: 20px;
+}
+
+.navbar-menu li a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+.navbar-menu li a:hover {
+    text-decoration: underline;
+}

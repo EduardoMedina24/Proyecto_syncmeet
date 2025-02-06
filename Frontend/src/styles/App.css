@@ -1,0 +1,78 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;  /* Asegura que el body ocupe toda la altura de la pantalla */
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;  /* Asegura que el root ocupe toda la altura de la pantalla */
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #007bff;
+  color: white;
+  width: 100%;  /* Esto asegura que ocupe todo el ancho */
+}
+
+main {
+  flex-grow: 1; /* Esto hace que el main ocupe el espacio restante */
+  overflow: hidden; /* Evita que el contenido se desborde */
+}
+
+
+.carousel-wrapper {
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 100%; /* Asegúrate de que ocupa toda la altura */
+}
+
+.carousel {
+  flex: 1;
+  position: relative;
+  
+  
+}
+
+
+
+.text-left {
+  left: 0;
+}
+
+.text-right {
+  right: 0;
+}
+
+
+.auth-section {
+  margin-top: 2rem;
+}
+
+.button {
+  display: inline-block;
+  margin: 0.5rem;
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.button.login {
+  background-color: #007bff;
+}
+
+.button.register {
+  background-color: #28a745;
+}
