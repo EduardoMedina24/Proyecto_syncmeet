@@ -1,31 +1,42 @@
-import { Link } from 'react-router-dom'; // Importar Link para navegar
-import PropTypes from 'prop-types'; // Importar PropTypes
-import './Navbar.css'; // Estilos específicos para el Navbar
+import { Link, useLocation } from 'react-router-dom'; // Importar useLocation
+import PropTypes from 'prop-types';
+import './Navbar.css';
 
-function Navbar() {
+const Navbar = () => {
+  const location = useLocation();
+  const isCalendarPage = location.pathname === '/calendar'; // O la ruta exacta de tu página del calendario
+
   return (
     <nav className="navbar">
       <div className="navbar-logo">
         <h1>SyncMeet</h1>
       </div>
       <ul className="navbar-menu">
+        {/* Mostrar Login y Registro solo si no estás en la página del calendario */}
+        {!isCalendarPage && (
+          <>
+            <li>
+              <Link to="/auth?view=login">Login</Link>
+            </li>
+            <li>
+              <Link to="/auth?view=register">Registro</Link>
+            </li>
+          </>
+        )}
         <li>
-          <Link to="/auth?view=login">Login</Link> {/* Navegar a /auth con view=login */}
-        </li>
-        <li>
-          <Link to="/auth?view=register">Registro</Link> {/* Navegar a /auth con view=register */}
-        </li>
-        <li>
-          <Link to="/">Inicio</Link> {/* Navegar al inicio */}
+          {isCalendarPage ? (
+            <Link to="/">Cerrar sesión</Link> // Muestra "Cerrar sesión" si estás en la página del calendario
+          ) : (
+            <Link to="/">Inicio</Link> // Muestra "Inicio" en el resto de las páginas
+          )}
         </li>
       </ul>
     </nav>
   );
-}
+};
 
-// Validación de las propiedades
 Navbar.propTypes = {
-  setView: PropTypes.func.isRequired, // Validamos que setView sea una función obligatoria
+  setView: PropTypes.func.isRequired,
 };
 
 export default Navbar;

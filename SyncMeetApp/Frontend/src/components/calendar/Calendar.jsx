@@ -44,7 +44,7 @@ const CalendarComponent = () => {
   const [currentEvent, setCurrentEvent] = useState(null);
   const [updatedTitle, setUpdatedTitle] = useState('');
   const [updatedDescription, setUpdatedDescription] = useState('');
-  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [ setSelectedEvent] = useState(null);
 
   const openModal = (event) => {
     setSelectedEvent(event);
@@ -205,38 +205,7 @@ const CalendarComponent = () => {
     }
   };
 
-  const handleEditEvent = async (event) => {
-    const updatedTitle = prompt("Editar título:", event.title);
-    const updatedDescription = prompt("Editar descripción:", event.description);
-    if (!updatedTitle || !updatedDescription) return;
-  
-    const updatedEvent = {
-      titulo: updatedTitle,
-      descripcion: updatedDescription,
-      fechaInicio: event.start,
-      fechaFin: event.end,
-    };
-  
-    try {
-      const response = await fetch(`http://localhost:5000/api/${event.tipo === 'tarea' ? 'tareas' : 'reuniones'}/${event.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(updatedEvent),
-      });
-      const data = await response.json();
-      if (data.success) {
-        fetchEvents(); // Recargar eventos actualizados
-      } else {
-        console.error('Error al actualizar:', data.message);
-      }
-    } catch (error) {
-      console.error('Error al actualizar evento:', error);
-    }
-  };
-  
+
   const handleDeleteEvent = async (event) => {
     if (!window.confirm("¿Seguro que deseas eliminar este evento?")) return;
   
