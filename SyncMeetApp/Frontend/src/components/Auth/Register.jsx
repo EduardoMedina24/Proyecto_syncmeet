@@ -7,6 +7,7 @@ import { Card } from "../ui/card";
 import { Mail, User, Lock } from "lucide-react";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
+import { toast, Toaster } from "sonner";
 function Register() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [name, setName] = useState("");
@@ -35,7 +36,7 @@ function Register() {
       const data = await response.json();
 
       if (data.success) {
-        alert("Registro exitoso");
+        toast.success("Registro exitoso"); // Mostrar mensaje de éxito
         // Limpiar los campos del formulario
         setName("");
         setEmail("");
@@ -43,6 +44,7 @@ function Register() {
         setError(""); // Limpiar el mensaje de error si lo hubo
         // Aquí puedes redirigir o realizar otras acciones
       } else {
+        toast.error("Ha habido un problema al registrarte"); // Mostrar mensaje de error
         setError(
           data.message ||
             "Hubo un problema al registrar tu cuenta. Intenta nuevamente."
@@ -65,6 +67,8 @@ function Register() {
   }, []);
 
   return (
+    <>
+    <Toaster position="top-center" richColors />
     <div className="auth-container register-container">
       {/* Textos a la izquierda */}
       {/*<TextLeft currentIndex={currentIndex} />*/}
@@ -143,7 +147,7 @@ function Register() {
                 </div>
                 {/* <label htmlFor="password">Contraseña:</label>
               <input
-                type="password"
+              type="password"
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)} // Actualiza el estado de la contraseña
@@ -176,6 +180,7 @@ function Register() {
       {/* Textos a la derecha */}
       {/*<TextRight currentIndex={currentIndex} />*/}
     </div>
+</> 
   );
 }
 

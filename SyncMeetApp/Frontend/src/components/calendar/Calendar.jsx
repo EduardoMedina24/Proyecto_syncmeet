@@ -18,9 +18,10 @@ import moment from "moment";
 import "moment/locale/es";
 import "./Calendar.css";
 import { Button } from "../ui/button";
-import { Card, CardContent, CardHeader } from "../ui/card";
+import { Card, CardContent, CardDescription, CardHeader } from "../ui/card";
 import { Textarea } from "../ui/textarea";
 import { Link } from "lucide-react";
+import { toast, Toaster } from "sonner";
 moment.locale("es");
 const localizer = momentLocalizer(moment);
 
@@ -143,6 +144,19 @@ const CalendarComponent = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const promise = () =>
+      new Promise((resolve) =>
+        setTimeout(() => resolve({ name: "El evento" }), 2000)
+      );
+
+    toast.promise(promise, {
+      loading: "Un momento...",
+      success: (data) => {
+        return `${data.name} ha sido añadido exitosamente`;
+      },
+      error: "Error al añadir el evento",
+    });
+
     const newEvent = {
       titulo: title,
       descripcion: description,
@@ -176,180 +190,187 @@ const CalendarComponent = () => {
         );
       }
     } catch (error) {
+      toast.error("Hubo un error al crear el evento");
       console.error("Error al agregar reunión:", error);
     }
   };
 
   return (
-    <div className="calendar-container">
-      <Card className="calendar-box overflow-hidden overflow-y-auto">
-        <CardContent>
-          <Calendar
-            localizer={localizer}
-            events={events}
-            startAccessor="start"
-            endAccessor="end"
-            selectable
-            onSelectSlot={handleSelectSlot}
-            style={{
-              height: "auto",
-              // Adjust the 100px based on your header/navigation height
-              width: "100%",
-              minHeight: "350px",
-              marginBottom: "20px",
-            }}
-            messages={messages}
-            culture="es"
-          />
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button className="  action-btn bg-[#bee4db] text-[#00684a] font-bold border-transparent border-2 text-balance py-2 px-4">
-                {" "}
-                <img src={googleMeetIcon} />
-                Crear reunión
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Programa una nueva reunion</DialogTitle>
-                <DialogDescription>
-                  Ingresa los datos de la reunión que quieres programar
-                </DialogDescription>
-              </DialogHeader>
-              <form onSubmit={handleSubmit}>
-                <div className="space-y-5">
-                  <div className="space-y-2">
-                    <Label>
-                      Título de evento{" "}
-                      <span className="text-destructive">*</span>
-                    </Label>
-                    <Input
-                      type="text"
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
-                      placeholder="Título"
-                      required
-                    />
+    <>
+      <Toaster richColors position="bottom-right" />
+      <div className="calendar-container">
+        <Card className="calendar-box overflow-hidden overflow-y-auto">
+          <CardContent>
+            <Dialog>
+              <DialogTrigger className="sticky" asChild>
+                <Button className="  action-btn bg-[#bee4db] text-[#00684a] font-bold border-transparent border-2 text-balance py-2 px-4">
+                  {" "}
+                  <img src={googleMeetIcon} />
+                  Crear reunión
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Programa una nueva reunion</DialogTitle>
+                  <DialogDescription>
+                    Ingresa los datos de la reunión que quieres programar
+                  </DialogDescription>
+                </DialogHeader>
+                <form onSubmit={handleSubmit}>
+                  <div className="space-y-5">
+                    <div className="space-y-2">
+                      <Label>
+                        Título de evento{" "}
+                        <span className="text-destructive">*</span>
+                      </Label>
+                      <Input
+                        type="text"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        placeholder="Título"
+                        required
+                      />
 
-                    {/* <input
-                      type="text"
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
-                      placeholder="Título"
-                      required
-                    /> */}
-                  </div>
-                  <div className=" flex flex-col space-y-2">
-                    <Label>
-                      {" "}
-                      Fecha de evento{" "}
-                      <span className="text-destructive">*</span>{" "}
-                    </Label>
-                    <input
-                      className="p-2 outline-none border border-gray-300 rounded-md  focus-visible:ring-2"
-                      type="datetime-local"
-                      value={start}
-                      onChange={(e) => setStart(e.target.value)}
-                      required
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label>
-                      Descripción de evento
-                      <span className="text-destructive">*</span>{" "}
-                    </Label>
-                    <Textarea
+                      {/* <input
+                        type="text"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        placeholder="Título"
+                        required
+                      /> */}
+                    </div>
+                    <div className=" flex flex-col space-y-2">
+                      <Label>
+                        {" "}
+                        Fecha de evento{" "}
+                        <span className="text-destructive">*</span>{" "}
+                      </Label>
+                      <input
+                        className="p-2 outline-none border border-gray-300 rounded-md  focus-visible:ring-2"
+                        type="datetime-local"
+                        value={start}
+                        onChange={(e) => setStart(e.target.value)}
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>
+                        Descripción de evento
+                        <span className="text-destructive">*</span>{" "}
+                      </Label>
+                      <Textarea
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        placeholder="Descripción"
+                        required
+                      />
+                    </div>
+
+                    {/*  <textarea
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                       placeholder="Descripción"
                       required
-                    />
-                  </div>
+                    /> */}
+                    <div className="space-y-2">
+                      <div className="mb-2 flex items-center justify-between gap-1">
+                        <Label className="leading-6">
+                          Enlace de reunión virtual
+                        </Label>
+                        <span className="text-sm text-muted-foreground">
+                          Opcional
+                        </span>
+                      </div>
 
-                  {/*  <textarea
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    placeholder="Descripción"
-                    required
-                  /> */}
-                  <div className="space-y-2">
-                    <div className="mb-2 flex items-center justify-between gap-1">
-                      <Label className="leading-6">
-                        Enlace de reunión virtual
-                      </Label>
-                      <span className="text-sm text-muted-foreground">
-                        Opcional
-                      </span>
+                      <div className="relative">
+                        <Input
+                          type="text"
+                          value={link}
+                          onChange={(e) => setLink(e.target.value)}
+                          placeholder="Enlace de reunión virtual"
+                        />
+                        <div className="pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-3 text-muted-foreground/80 peer-disabled:opacity-50">
+                          <Link size={16} strokeWidth={2} aria-hidden="true" />
+                        </div>
+                      </div>
                     </div>
-
-                    <div className="relative">
-                      <Input
+                    {/* <input
                         type="text"
                         value={link}
                         onChange={(e) => setLink(e.target.value)}
                         placeholder="Enlace de reunión virtual"
-                      />
-                      <div className="pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-3 text-muted-foreground/80 peer-disabled:opacity-50">
-                        <Link size={16} strokeWidth={2} aria-hidden="true" />
-                      </div>
-                    </div>
+                      /> */}
                   </div>
-                  {/* <input
-                      type="text"
-                      value={link}
-                      onChange={(e) => setLink(e.target.value)}
-                      placeholder="Enlace de reunión virtual"
-                    /> */}
-                </div>
-                <Button
-                  type="submit"
-                  className="action-btn bg-[#bee4db] text-[#00684a] font-bold border-transparent border-2"
-                >
-                  Guardar
-                </Button>
-              </form>
-            </DialogContent>
-          </Dialog>
-        </CardContent>
-      </Card>
+                  <Button
+                    type="submit"
+                    className="action-btn bg-[#bee4db] text-[#00684a] font-bold border-transparent border-2"
+                  >
+                    Guardar
+                  </Button>
+                </form>
+              </DialogContent>
+            </Dialog>
+            <Calendar
+              localizer={localizer}
+              events={events}
+              startAccessor="start"
+              endAccessor="end"
+              selectable
+              onSelectSlot={handleSelectSlot}
+              style={{
+                height: "100%",
+                // Adjust the 100px based on your header/navigation height
+                width: "100%",
+                minHeight: "390px",
+                marginBottom: "20px",
+              }}
+              messages={messages}
+              culture="es"
+            />
+          </CardContent>
+        </Card>
 
-      <Card className="meeting-list">
-        <CardHeader>
-          Reuniones para{" "}
-          {selectedDate
-            ? moment(selectedDate).format("LLL")
-            : "selecciona una fecha"}
-        </CardHeader>
-        {filteredEvents.length > 0 ? (
-          <div className="meeting-cards">
-            {filteredEvents.map((event) => (
-              <div
-                key={event.id}
-                className="meeting-card"
-                onClick={() => speakDetails(event)} // Leer en voz alta cuando se haga clic
-              >
-                <h3>{event.title}</h3>
-                <p>{moment(event.start).format("LLL")}</p>
-                <p>{event.description}</p>
-                {event.enlace && (
-                  <div className="virtual-link">
-                    <a
-                      href={event.enlace}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Acceder a la reunión virtual
-                    </a>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p>No hay reuniones programadas.</p>
-        )}
-      </Card>
-    </div>
+        <Card className="meeting-list">
+          <CardHeader>
+            Reuniones para{" "}
+            {selectedDate
+              ? moment(selectedDate).format("LLL")
+              : "selecciona una fecha"}
+          </CardHeader>
+          {filteredEvents.length > 0 ? (
+            <div className="meeting-cards">
+              {filteredEvents.map((event) => (
+                <Card
+                  key={event.id}
+                  className="meeting-card space-y-2"
+                  onClick={() => speakDetails(event)} // Leer en voz alta cuando se haga clic
+                >
+                  <h3>{event.title}</h3>
+
+                  <CardDescription>
+                    <p>{moment(event.start).format("LLL")}</p>
+                    <p>{event.description}</p>
+                  </CardDescription>
+                  {event.enlace && (
+                    <div className="virtual-link">
+                      <a
+                        href={event.enlace}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Acceder a la reunión virtual
+                      </a>
+                    </div>
+                  )}
+                </Card>
+              ))}
+            </div>
+          ) : (
+            <p>No hay reuniones programadas.</p>
+          )}
+        </Card>
+      </div>
+    </>
   );
 };
 

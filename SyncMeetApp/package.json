@@ -7,5 +7,8 @@
     "devDependencies": {
         "concurrently": "^9.1.2",
         "nodemon": "^3.1.9"
+    },
+    "dependencies": {
+        "sonner": "^1.7.4"
     }
 }

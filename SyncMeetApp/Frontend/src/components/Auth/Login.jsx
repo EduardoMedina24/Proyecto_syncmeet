@@ -8,6 +8,7 @@ import { Card } from "../ui/card";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Mail, Lock } from "lucide-react";
+import { toast, Toaster } from "sonner";
 
 const Login = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -36,10 +37,14 @@ const Login = () => {
       const data = await response.json();
 
       if (data.message === "Login exitoso") {
-        alert("Inicio de sesión exitoso");
+        toast.success('Inicio de sesión exitoso')
         localStorage.setItem("token", data.token); // Guarda el token en el localStorage
+        setTimeout(() => {
         navigate("/calendar"); // Redirige al calendario después del login
+      }, 2000)
+      ;
       } else {
+        toast.error('Ha habido un problema al iniciar sesión')
         setError("Correo o contraseña incorrectos.");
       }
     } catch (error) {
@@ -58,6 +63,8 @@ const Login = () => {
   }, []);
 
   return (
+    <>
+    <Toaster richColors position="top-center" />
     <div className="auth-container">
       {/* Textos a la izquierda */}
       {/*  <TextLeft currentIndex={currentIndex} /> */}
@@ -125,6 +132,7 @@ const Login = () => {
       {/* Textos a la derecha */}
       {/* <TextRight currentIndex={currentIndex} /> */}
     </div>
+    </>
   );
 };
 
