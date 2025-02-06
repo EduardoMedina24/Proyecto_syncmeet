@@ -8,7 +8,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
 import googleMeetIcon from "../../assets/google-meet.svg";
 
 import { Calendar, momentLocalizer } from "react-big-calendar";
@@ -18,6 +19,8 @@ import "moment/locale/es";
 import "./Calendar.css";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader } from "../ui/card";
+import { Textarea } from "../ui/textarea";
+import { Link } from "lucide-react";
 moment.locale("es");
 const localizer = momentLocalizer(moment);
 
@@ -200,7 +203,7 @@ const CalendarComponent = () => {
           />
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="default">
+              <Button className="  action-btn bg-[#bee4db] text-[#00684a] font-bold border-transparent border-2 text-balance py-2 px-4">
                 {" "}
                 <img src={googleMeetIcon} />
                 Crear reunión
@@ -214,32 +217,94 @@ const CalendarComponent = () => {
                 </DialogDescription>
               </DialogHeader>
               <form onSubmit={handleSubmit}>
-                <input
-                  type="text"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  placeholder="Título"
-                  required
-                />
-                <input
-                  type="datetime-local"
-                  value={start}
-                  onChange={(e) => setStart(e.target.value)}
-                  required
-                />
-                <textarea
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  placeholder="Descripción"
-                  required
-                />
-                <input
-                  type="text"
-                  value={link}
-                  onChange={(e) => setLink(e.target.value)}
-                  placeholder="Enlace de reunión virtual"
-                />
-                <Button type="submit" variant="default">
+                <div className="space-y-5">
+                  <div className="space-y-2">
+                    <Label>
+                      Título de evento{" "}
+                      <span className="text-destructive">*</span>
+                    </Label>
+                    <Input
+                      type="text"
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                      placeholder="Título"
+                      required
+                    />
+
+                    {/* <input
+                      type="text"
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                      placeholder="Título"
+                      required
+                    /> */}
+                  </div>
+                  <div className=" flex flex-col space-y-2">
+                    <Label>
+                      {" "}
+                      Fecha de evento{" "}
+                      <span className="text-destructive">*</span>{" "}
+                    </Label>
+                    <input
+                      className="p-2 outline-none border border-gray-300 rounded-md  focus-visible:ring-2"
+                      type="datetime-local"
+                      value={start}
+                      onChange={(e) => setStart(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>
+                      Descripción de evento
+                      <span className="text-destructive">*</span>{" "}
+                    </Label>
+                    <Textarea
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                      placeholder="Descripción"
+                      required
+                    />
+                  </div>
+
+                  {/*  <textarea
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    placeholder="Descripción"
+                    required
+                  /> */}
+                  <div className="space-y-2">
+                    <div className="mb-2 flex items-center justify-between gap-1">
+                      <Label className="leading-6">
+                        Enlace de reunión virtual
+                      </Label>
+                      <span className="text-sm text-muted-foreground">
+                        Opcional
+                      </span>
+                    </div>
+
+                    <div className="relative">
+                      <Input
+                        type="text"
+                        value={link}
+                        onChange={(e) => setLink(e.target.value)}
+                        placeholder="Enlace de reunión virtual"
+                      />
+                      <div className="pointer-events-none absolute inset-y-0 end-0 flex items-center justify-center pe-3 text-muted-foreground/80 peer-disabled:opacity-50">
+                        <Link size={16} strokeWidth={2} aria-hidden="true" />
+                      </div>
+                    </div>
+                  </div>
+                  {/* <input
+                      type="text"
+                      value={link}
+                      onChange={(e) => setLink(e.target.value)}
+                      placeholder="Enlace de reunión virtual"
+                    /> */}
+                </div>
+                <Button
+                  type="submit"
+                  className="action-btn bg-[#bee4db] text-[#00684a] font-bold border-transparent border-2"
+                >
                   Guardar
                 </Button>
               </form>

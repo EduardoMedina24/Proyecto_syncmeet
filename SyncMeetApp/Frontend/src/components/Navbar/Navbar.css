@@ -1,20 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  background-color: #c2ffc7;
+  background-color: #f9f9f9;
   color: white;
   width: 100%; /* Asegura que el navbar ocupe todo el ancho */
 }
 
 .nav-btn {
-  transition: all 0.2s ease-in-out;
+  transition: all 0.1s ease-in-out;
 }
 
 .nav-btn:hover {
   cursor: pointer;
-  background-color: #0a390a;
+  border-radius: 10px;
+  background-color: aliceblue;
 }
 
 .navbar-logo h1 {
