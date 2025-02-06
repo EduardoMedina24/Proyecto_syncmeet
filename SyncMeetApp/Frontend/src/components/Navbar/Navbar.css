@@ -1,36 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
-    background-color: #00bcd4; /* Cambiar el color del navbar */
+    background-color: #f9f9f9;
     color: white;
-    width: 100%;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave */
-}
-
-.navbar-logo h1 {
+    width: 100%; /* Asegura que el navbar ocupe todo el ancho */
+  }
+  
+  .nav-btn {
+    transition: all 0.1s ease-in-out;
+  }
+  
+  .nav-btn:hover {
+    cursor: pointer;
+    border-radius: 10px;
+    background-color: aliceblue;
+  }
+  
+  .navbar-logo h1 {
     margin: 0;
-    font-size: 1.5rem; /* Tamaño de fuente más grande */
-}
-
-.navbar-menu {
+  }
+  
+  .navbar-menu {
     list-style: none;
     display: flex;
     gap: 20px;
     padding-right: 20px;
-}
-
-.navbar-menu li a {
+  }
+  
+  .navbar-menu li a {
     text-decoration: none;
     color: white;
     font-weight: bold;
-    transition: color 0.3s;
-}
-
-.navbar-menu li a:hover {
-    color: #0097a7; /* Cambiar el color al pasar el mouse */
-}
+  }
+  
+  .navbar-menu li a:hover {
+    text-decoration: underline;
+  }
+  

@@ -44,7 +44,8 @@ const CalendarComponent = () => {
   const [currentEvent, setCurrentEvent] = useState(null);
   const [updatedTitle, setUpdatedTitle] = useState('');
   const [updatedDescription, setUpdatedDescription] = useState('');
-  const [ setSelectedEvent] = useState(null);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+
 
   const openModal = (event) => {
     setSelectedEvent(event);
@@ -336,7 +337,7 @@ const CalendarComponent = () => {
 
       <div className="meeting-list">
   <h2>
-    Eventos para {selectedDate ? moment(selectedDate).format('LLL') : 'selecciona una fecha'}
+    Eventos para  {selectedDate ? moment(selectedDate).format('LL') : 'selecciona una fecha'}
   </h2>
   {filteredEvents.length > 0 ? (
     <div className="meeting-cards">
@@ -347,12 +348,18 @@ const CalendarComponent = () => {
     <p>{event.description}</p>
     {event.enlace && (
       <div className="virtual-link">
-        <a href={event.enlace} target="_blank" rel="noopener noreferrer">
+                <a 
+          href={event.enlace} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          onClick={(e) => e.stopPropagation()} // Evita que el clic en el enlace active el `onClick` del div
+        >
           Acceder a la reunión virtual
         </a>
       </div>
     )}
     <button onClick={(e) => { e.stopPropagation(); openModal(event); }}>✏️</button>
+    
     <button onClick={(e) => { e.stopPropagation(); handleDeleteEvent(event); }}>🗑️</button>
   </div>
 ))}
@@ -362,30 +369,34 @@ const CalendarComponent = () => {
   isOpen={modalIsOpen}
   onRequestClose={closeModal}
   contentLabel="Editar Evento"
-  className="modal"
+  className="modal1"
   overlayClassName="modal-overlay"
 >
   <Draggable>
-    <div className="modal1">
+    <div className="modal-content">
       <div className="modal-header">
         <h2>Editar Evento</h2>
-        <span className="modal-close" onClick={closeModal}>X</span>
+        <span className="modal-close" onClick={closeModal}>✖</span>
       </div>
-      <input
-        type="text"
-        value={updatedTitle}
-        onChange={(e) => setUpdatedTitle(e.target.value)}
-        placeholder="Título"
-      />
-      <textarea
-        value={updatedDescription}
-        onChange={(e) => setUpdatedDescription(e.target.value)}
-        placeholder="Descripción"
-      />
-      <div className="modal-actions">
-        <button onClick={handleUpdateEvent}>Guardar</button>
-        <button onClick={closeModal} className="cancel-button">Cancelar</button>
-      </div>
+      <form className="modal-form">
+        <label>Título del evento</label>
+        <input
+          type="text"
+          value={updatedTitle}
+          onChange={(e) => setUpdatedTitle(e.target.value)}
+          placeholder="Ingrese el título"
+        />
+        <label>Descripción</label>
+        <textarea
+          value={updatedDescription}
+          onChange={(e) => setUpdatedDescription(e.target.value)}
+          placeholder="Ingrese la descripción"
+        />
+        <div className="modal-actions">
+          <button  type="button" onClick={handleUpdateEvent} className="save-button">Guardar</button>
+          <button type="button" onClick={closeModal} className="cancel-button">Cancelar</button>
+        </div>
+      </form>
     </div>
   </Draggable>
 </Modal>

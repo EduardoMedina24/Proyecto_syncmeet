@@ -79,80 +79,58 @@
   background-color: #ffffff; /* Fondo blanco */
 }
 
-.form-container {
+/* Asegura que el contenedor del formulario ocupe el alto completo */
+.auth-container {
   display: flex;
+  align-items: center; /* Cambié stretch por center para evitar el estiramiento no deseado */
   justify-content: center;
-  align-items: flex-start;
   height: 100%;
-  max-height: 80%;
-  flex-direction: column;
-  width: 25%;
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  animation: borderAnimation 2s infinite linear; /* Animación de borde */
+  gap: 13rem; /* Asegura que ocupe toda la altura disponible */
 }
 
-h2 {
-  text-align: center;
-  margin-bottom: 2rem; /* Reducir el margen inferior */
-  color: #333;
-  width: 100%;
-  font-size: 2rem; /* Tamaño de fuente más grande */
+.form-action-btn {
+  transition: all 0.1s ease-in-out;
 }
 
-/* Asegurarse de que los elementos de formulario estén alineados de manera uniforme */
+.form-action-btn:hover {
+  cursor: pointer;
+  border-radius: 1.5rem;
+  background-color: #bee4db;
+  border-color: #00684a;
+  color: #00684a;
+}
+
+.form-action-btn:active {
+  background-color: #3b977d;
+  color: #fff;
+}
+
+/* Asegurarse de que los elementos de formulario están alineados de manera uniforme */
 form {
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  flex-direction: column; /* Hace que los elementos del formulario se alineen verticalmente */
+  gap: 1.5rem; /* Espacio uniforme entre los campos */
   width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
+  max-width: 400px; /* Ancho máximo para el formulario */
+  margin: 0 auto; /* Centrar el formulario */
 }
 
 /* Asegurarse de que los campos de entrada ocupen todo el ancho y estén alineados */
-input {
-  padding: 0.8rem;
-  font-size: 1rem;
-  width: 100%;
-  box-sizing: border-box;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-bottom: 1rem;
-  background-color: #f9f9f9; /* Fondo más claro para los inputs */
-}
 
 /* Estilo del botón */
-.button {
-  padding: 1rem;
-  font-size: 1rem;
-  background-color: #00bcd4; /* Cambiar el color del botón */
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.button:hover {
-  background-color: #0097a7; /* Color más oscuro al pasar el mouse */
-}
 
 /* Estilo para los enlaces */
 .link {
-  color: #00bcd4; /* Cambiar el color del enlace */
+  color: #007bff;
   cursor: pointer;
-  text-decoration: none; /* Quitar subrayado */
 }
 
 .link:hover {
-  text-decoration: underline; /* Subrayar al pasar el mouse */
+  text-decoration: underline;
 }
 
 .error-message {
-  color: #ff0000;
+  color: red;
   font-size: 14px;
   margin-top: 10px;
 }
