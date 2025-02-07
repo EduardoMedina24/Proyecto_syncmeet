@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Card } from "../ui/card";
 import { Input } from "../ui/input";
-import { Label } from "../ui/label";
+
 
 const Login = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -67,12 +67,14 @@ const Login = () => {
       {/* Formulario de Login */}
        
       <Card className="form-container">
-  <h2 className="text-2xl font-bold">Iniciar Sesión</h2>
+      <h2 className="text-2xl font-bold text-center">Iniciar Sesión</h2>
+
+  <br />
   <form onSubmit={handleSubmit}>
     <div className="space-y-5">
       {/* Campo de Correo Electrónico */}
       <div className="space-y-2">
-        <Label htmlFor="email">Correo Electrónico:</Label>
+       
         <div className="flex items-center space-x-2">  {/* Contenedor Flex */}
   {/* Ícono de Correo */}
   <div className="text-muted-foreground/80">
@@ -93,7 +95,7 @@ const Login = () => {
 
       {/* Campo de Contraseña */}
       <div className="space-y-2">
-        <Label htmlFor="password">Contraseña:</Label>
+       
         <div className="flex items-center space-x-2">  {/* Contenedor Flex */}
   {/* Ícono de Contraseña */}
   <div className="text-muted-foreground/80">

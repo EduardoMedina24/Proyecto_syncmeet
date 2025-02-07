@@ -71,7 +71,8 @@ function Register() {
 
 {/* Formulario de Registro */}
 <div className="form-container">
-  <h2>Registro</h2>
+  <h2 className="text-2xl font-bold text-center">Registro</h2>
+  <br />
   <form onSubmit={handleSubmit}>
     {/* Campo Nombre */}
     <div className="flex items-center space-x-2">
@@ -80,7 +81,7 @@ function Register() {
         <User size={18} strokeWidth={2} aria-hidden="true" />
       </div>
       <div>
-        <label htmlFor="name">Nombre:</label>
+       
         <input
           type="text"
           id="name"
@@ -99,7 +100,7 @@ function Register() {
         <Mail size={18} strokeWidth={2} aria-hidden="true" />
       </div>
       <div>
-        <label htmlFor="email">Correo Electrónico:</label>
+       
         <input
           type="email"
           id="email"
@@ -118,7 +119,7 @@ function Register() {
         <Lock size={18} strokeWidth={2} aria-hidden="true" />
       </div>
       <div>
-        <label htmlFor="password">Contraseña:</label>
+    
         <input
           type="password"
           id="password"
