@@ -1,0 +1,8 @@
+{
+    "build": {
+      "base": "SyncMeetApp/Backend",
+      "preinstall": "cd SyncMeetApp/Backend && npm install"
+    },
+    "start": "node SyncMeetApp/Backend/index.js"
+  }
+  
