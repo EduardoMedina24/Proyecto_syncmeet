@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import './Carousel.css';
-
+import Img1 from '../../assets/img/image.jpeg';
+import Img2 from '../../assets/img/Designer (11).jpeg';
 function Carousel({ setCurrentIndex }) {
   const images = [
     'https://images.unsplash.com/photo-1593642634367-d91a135587b5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNjYyOXwwfDF8c2VhY2h8MXx8Y2Fyb3VzZWx8ZW58MHx8fHwxNjY0MzY1Njc3&ixlib=rb-1.2.1&q=80&w=1080',
-    'https://picsum.photos/300',
-    'https://picsum.photos/503',
+    Img2,
+    Img1,
   ];
 
   const [currentIndexLocal, setCurrentIndexLocal] = useState(0);

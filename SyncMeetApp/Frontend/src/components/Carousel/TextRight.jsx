@@ -1,5 +1,9 @@
 import PropTypes from 'prop-types';
 import './Carousel.css';
+import Img1 from '../../assets/img/Designer (10).jpeg';
+import Img2 from '../../assets/img/Designer (9).jpeg';
+import Img3 from '../../assets/img/Designer (7).jpeg';
+import Img4 from '../../assets/img/Designer (6).jpeg';
 
 function TextRight({ currentIndex }) {
   const textsRight = [
@@ -15,20 +19,21 @@ function TextRight({ currentIndex }) {
       <br />
         <div className="card-container">
             <div className="card">
-              <img src="https://picsum.photos/103" alt="Descripción 1" />
+              <img src={Img1} alt="Descripción 1" />
               <p>Organiza</p>
             </div>
             <div className="card">
-              <img src="https://picsum.photos/104"alt="Descripción 2" />
+              <img src={Img2}alt="Descripción 2" />
               <p>Conecta</p>
             </div>
             <div className="card">
-              <img src="https://picsum.photos/105" alt="Descripción 3" />
+              <img src={Img4} alt="Descripción 3" />
               <p>Gestiona</p>
             </div>
             <div className="card">
-              <img src="https://picsum.photos/106" alt="Descripción 4" />
+              <img src={Img3} alt="Descripción 4" />
               <p>Simplifica</p>
+              
             </div>
         </div>
       </div>

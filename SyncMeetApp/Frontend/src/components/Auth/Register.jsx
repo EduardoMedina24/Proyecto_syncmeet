@@ -3,6 +3,7 @@ import TextLeft from '../Carousel/TextLeft';
 import TextRight from '../Carousel/TextRight';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'; // Importar Link
+import { User, Mail, Lock } from 'lucide-react'; // Importa los íconos
 
 function Register() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -66,52 +67,79 @@ function Register() {
       <TextLeft currentIndex={currentIndex} />
 
       {/* Formulario de Registro */}
-      <div className="form-container">
-        <h2>Registro</h2>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="name">Nombre:</label>
-            <input
-              type="text"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)} // Actualiza el estado del nombre
-              placeholder="Ingresa tu nombre"
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="email">Correo Electrónico:</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)} // Actualiza el estado del email
-              placeholder="Ingresa tu correo"
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="password">Contraseña:</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)} // Actualiza el estado de la contraseña
-              placeholder="Crea una contraseña"
-              required
-            />
-          </div>
-          <button type="submit" className="button register">Registrar</button>
+      
 
-          <p>¿Ya tienes cuenta? <Link to="/auth?view=login" className="link">Inicia sesión</Link></p>
-           {/* Mostrar mensaje de error si hay */}
-          
-          {error && <p className="error-message">{error}</p>}
-
-
-        </form>
+{/* Formulario de Registro */}
+<div className="form-container">
+  <h2 className="text-2xl font-bold text-center">Registro</h2>
+  <br />
+  <form onSubmit={handleSubmit}>
+    {/* Campo Nombre */}
+    <div className="flex items-center space-x-2">
+      {/* Ícono de Nombre */}
+      <div className="text-muted-foreground/80">
+        <User size={18} strokeWidth={2} aria-hidden="true" />
       </div>
+      <div>
+       
+        <input
+          type="text"
+          id="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)} // Actualiza el estado del nombre
+          placeholder="Ingresa tu nombre"
+          required
+        />
+      </div>
+    </div>
+
+    {/* Campo Correo Electrónico */}
+    <div className="flex items-center space-x-2">
+      {/* Ícono de Correo */}
+      <div className="text-muted-foreground/80">
+        <Mail size={18} strokeWidth={2} aria-hidden="true" />
+      </div>
+      <div>
+       
+        <input
+          type="email"
+          id="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)} // Actualiza el estado del email
+          placeholder="Ingresa tu correo"
+          required
+        />
+      </div>
+    </div>
+
+    {/* Campo Contraseña */}
+    <div className="flex items-center space-x-2">
+      {/* Ícono de Contraseña */}
+      <div className="text-muted-foreground/80">
+        <Lock size={18} strokeWidth={2} aria-hidden="true" />
+      </div>
+      <div>
+    
+        <input
+          type="password"
+          id="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)} // Actualiza el estado de la contraseña
+          placeholder="Crea una contraseña"
+          required
+        />
+      </div>
+    </div>
+
+    <button type="submit" className="button register">Registrar</button>
+
+    <p>¿Ya tienes cuenta? <Link to="/auth?view=login" className="link">Inicia sesión</Link></p>
+
+    {/* Mostrar mensaje de error si hay */}
+    {error && <p className="error-message">{error}</p>}
+  </form>
+</div>
+
 
       {/* Textos a la derecha */}
       <TextRight currentIndex={currentIndex} />

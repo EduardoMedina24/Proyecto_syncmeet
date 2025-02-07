@@ -1,9 +1,11 @@
 import './Auth.css';
 import TextLeft from '../Carousel/TextLeft';
 import TextRight from '../Carousel/TextRight';
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { Lock, Mail } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Card } from "../ui/card";
+import { Input } from "../ui/input";
 
 
 const Login = () => {
@@ -33,7 +35,7 @@ const Login = () => {
       const data = await response.json();
   
       if (data.message === 'Login exitoso') {
-        alert('Inicio de sesión exitoso');
+        // alert('Inicio de sesión exitoso');
         localStorage.setItem('token', data.token); // Guarda el token en el localStorage
         navigate('/calendar');  // Redirige al calendario después del login
       } else {
@@ -59,42 +61,81 @@ const Login = () => {
   return (
     <div className="auth-container">
       {/* Textos a la izquierda */}
-      <TextLeft currentIndex={currentIndex} />
+      
+      <TextLeft currentIndex={currentIndex} className="text-left1" />
 
       {/* Formulario de Login */}
-      <div className="form-container">
-        <h2>Iniciar Sesión</h2>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="email">Correo Electrónico:</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Ingresa tu correo"
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="password">Contraseña:</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Ingresa tu contraseña"
-              required
-            />
-          </div>
-          <button type="submit" className="button login">Entrar</button>
+       
+      <Card className="form-container">
+      <h2 className="text-2xl font-bold text-center">Iniciar Sesión</h2>
 
-          {/* Mostrar mensaje de error */}
-          {error && <p className="error-message">{error}</p>}
+  <br />
+  <form onSubmit={handleSubmit}>
+    <div className="space-y-5">
+      {/* Campo de Correo Electrónico */}
+      <div className="space-y-2">
+       
+        <div className="flex items-center space-x-2">  {/* Contenedor Flex */}
+  {/* Ícono de Correo */}
+  <div className="text-muted-foreground/80">
+    <Mail size={18} strokeWidth={2} aria-hidden="true" />
+  </div>
+  {/* Input de Correo */}
+  <Input
+    value={email}
+    onChange={(e) => setEmail(e.target.value)}
+    placeholder="Correo Electrónico"
+    type="email"
+    required
+    className="border p-2"
+  />
+</div>
 
-          <p>¿No tienes cuenta? <Link to="/auth?view=register" className="link">Regístrate</Link></p>
-        </form>
       </div>
+
+      {/* Campo de Contraseña */}
+      <div className="space-y-2">
+       
+        <div className="flex items-center space-x-2">  {/* Contenedor Flex */}
+  {/* Ícono de Contraseña */}
+  <div className="text-muted-foreground/80">
+    <Lock size={18} strokeWidth={2} aria-hidden="true" />
+  </div>
+  {/* Input de Contraseña */}
+  <Input
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+    placeholder="Contraseña"
+    type="password"
+    required
+    className="border p-2"
+  />
+</div>
+      </div>
+    </div>
+
+    <button
+      type="submit"
+      className="form-action-btn bg-[#31a58f] text-white p-1 font-bold border-transparent border-solid border-2 rounded-md"
+    >
+      Entrar
+    </button>
+
+    {error && <p className="error-message">{error}</p>}
+
+    <p>
+      ¿No tienes cuenta?{" "}
+      <Link to="/auth?view=register" className="link">
+        Regístrate
+      </Link>
+    </p>
+  </form>
+</Card>
+
+
+
+
+
 
       {/* Textos a la derecha */}
       <TextRight currentIndex={currentIndex} />

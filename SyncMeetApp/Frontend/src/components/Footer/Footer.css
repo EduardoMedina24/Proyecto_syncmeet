@@ -1,18 +1,21 @@
-
 .footer {
     background-color: #333;
     color: white;
     padding: 1rem;
     text-align: center;
-    width: 100%; /* Esto asegura que el footer ocupe todo el ancho */
+    width: 100%;
+    position: sticky;
+    bottom: 0;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave */
 }
 
 .social-links a {
     margin: 0 10px;
     text-decoration: none;
     color: white;
+    transition: color 0.3s;
 }
 
 .social-links a:hover {
-    text-decoration: underline;
+    color: #00bcd4; /* Cambiar el color al pasar el mouse */
 }
