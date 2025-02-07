@@ -22,6 +22,7 @@ const Login = () => {
       setError('Por favor, completa todos los campos.');
       return;
     }
+    
   
     try {
       const response = await fetch('http://localhost:5000/api/users/login', {
