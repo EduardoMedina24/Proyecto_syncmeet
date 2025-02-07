@@ -61,67 +61,79 @@ const Login = () => {
   return (
     <div className="auth-container">
       {/* Textos a la izquierda */}
-      <TextLeft currentIndex={currentIndex} />
+      
+      <TextLeft currentIndex={currentIndex} className="text-left1" />
 
       {/* Formulario de Login */}
+       
       <Card className="form-container">
-        <h2 className="text-2xl font-bold">Iniciar Sesión</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="space-y-5">
-            <div className="space-y-2">
-              <Label htmlFor="email">Correo Electrónico:</Label>
-              <div className="relative">
-                <Input
-                  id="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)} // Actualiza el estado del email
-                  className="peer ps-9"
-                  placeholder="Ingresa tu correo"
-                  type="email"
-                  required
-                />
-                <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
-                  <Mail size={16} strokeWidth={2} aria-hidden="true" />
-                </div>
-              </div>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Contraseña:</Label>
-              <div className="relative">
-                <Input
-                  id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)} // Actualiza el estado de la contraseña
-                  className="peer ps-9"
-                  placeholder="Crea una contraseña"
-                  type="password"
-                  required
-                />
-                <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
-                  <Lock size={16} strokeWidth={2} aria-hidden="true" />
-                </div>
-              </div>
-            </div>
-          </div>
+  <h2 className="text-2xl font-bold">Iniciar Sesión</h2>
+  <form onSubmit={handleSubmit}>
+    <div className="space-y-5">
+      {/* Campo de Correo Electrónico */}
+      <div className="space-y-2">
+        <Label htmlFor="email">Correo Electrónico:</Label>
+        <div className="flex items-center space-x-2">  {/* Contenedor Flex */}
+  {/* Ícono de Correo */}
+  <div className="text-muted-foreground/80">
+    <Mail size={18} strokeWidth={2} aria-hidden="true" />
+  </div>
+  {/* Input de Correo */}
+  <Input
+    value={email}
+    onChange={(e) => setEmail(e.target.value)}
+    placeholder="Correo Electrónico"
+    type="email"
+    required
+    className="border p-2"
+  />
+</div>
 
-          <button
-            type="submit"
-            className="form-action-btn  bg-[#31a58f] text-white  p-1 font-bold border-transparent border-solid border-2 rounded-md "
-          >
-            Entrar
-          </button>
+      </div>
 
-          {/* Mostrar mensaje de error */}
-          {error && <p className="error-message">{error}</p>}
+      {/* Campo de Contraseña */}
+      <div className="space-y-2">
+        <Label htmlFor="password">Contraseña:</Label>
+        <div className="flex items-center space-x-2">  {/* Contenedor Flex */}
+  {/* Ícono de Contraseña */}
+  <div className="text-muted-foreground/80">
+    <Lock size={18} strokeWidth={2} aria-hidden="true" />
+  </div>
+  {/* Input de Contraseña */}
+  <Input
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+    placeholder="Contraseña"
+    type="password"
+    required
+    className="border p-2"
+  />
+</div>
+      </div>
+    </div>
 
-          <p>
-            ¿No tienes cuenta?{" "}
-            <Link to="/auth?view=register" className="link">
-              Regístrate
-            </Link>
-          </p>
-        </form>
-      </Card>
+    <button
+      type="submit"
+      className="form-action-btn bg-[#31a58f] text-white p-1 font-bold border-transparent border-solid border-2 rounded-md"
+    >
+      Entrar
+    </button>
+
+    {error && <p className="error-message">{error}</p>}
+
+    <p>
+      ¿No tienes cuenta?{" "}
+      <Link to="/auth?view=register" className="link">
+        Regístrate
+      </Link>
+    </p>
+  </form>
+</Card>
+
+
+
+
+
 
       {/* Textos a la derecha */}
       <TextRight currentIndex={currentIndex} />
