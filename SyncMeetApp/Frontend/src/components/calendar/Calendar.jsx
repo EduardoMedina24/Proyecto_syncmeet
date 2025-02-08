@@ -73,7 +73,7 @@ const CalendarComponent = () => {
     };
 
     try {
-      const response = await fetch(`${API_URL}api/${currentEvent.tipo === 'tarea' ? 'tareas' : 'reuniones'}/${currentEvent.id}`, {
+      const response = await fetch(`${API_URL}/api/${currentEvent.tipo === 'tarea' ? 'tareas' : 'reuniones'}/${currentEvent.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -98,10 +98,10 @@ const CalendarComponent = () => {
   const fetchEvents = async () => {
     try {
       const [reunionesResponse, tareasResponse] = await Promise.all([
-        fetch(`${API_URL}api/users/reuniones`, {
+        fetch(`${API_URL}/api/users/reuniones`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
-        fetch(`${API_URL}api/users/tareas`, {
+        fetch(`${API_URL}/api/users/tareas`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
       ]);
@@ -164,7 +164,7 @@ const CalendarComponent = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const url = tipoEvento === 'reunion' ? `${API_URL}api/users/reuniones` : `${API_URL}api/users/tareas`;
+    const url = tipoEvento === 'reunion' ? `${API_URL}/api/users/reuniones` : `${API_URL}/api/users/tareas`;
 
     const newEvent =
       tipoEvento === 'reunion'
