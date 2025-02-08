@@ -14,7 +14,13 @@ const cors = require('cors');
 
 // Middleware para procesar JSON
 app.use(express.json());
-app.use(cors()); // Habilita CORS para todas las rutas
+
+app.use(cors({
+  origin: '*', // O especifica tu dominio de Vercel
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+ // Habilita CORS para todas las rutas
 // Conexión a MongoDB Atlas
 mongoose
   .connect(process.env.MONGO_URI, {

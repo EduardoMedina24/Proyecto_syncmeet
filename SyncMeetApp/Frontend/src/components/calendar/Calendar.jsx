@@ -98,16 +98,19 @@ const CalendarComponent = () => {
   const fetchEvents = async () => {
     try {
       const [reunionesResponse, tareasResponse] = await Promise.all([
-        fetch(`${API_URL}/api/users/reuniones`, {
+        fetch(`${API_URL}/api/reuniones`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
-        fetch(`${API_URL}/api/users/tareas`, {
+        fetch(`${API_URL}/api/tareas`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
       ]);
   
       const reunionesData = await reunionesResponse.json();
       const tareasData = await tareasResponse.json();
+      console.log("Reuniones:", reunionesData);
+      console.log("Tareas:", tareasData);
+  
   
       const formattedReuniones = reunionesData.map(event => ({
         id: event._id,
@@ -164,7 +167,7 @@ const CalendarComponent = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const url = tipoEvento === 'reunion' ? `${API_URL}/api/users/reuniones` : `${API_URL}/api/users/tareas`;
+    const url = tipoEvento === 'reunion' ? `${API_URL}/api/reuniones` : `${API_URL}/api/tareas`;
 
     const newEvent =
       tipoEvento === 'reunion'
