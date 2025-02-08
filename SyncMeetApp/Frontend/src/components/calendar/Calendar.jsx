@@ -45,6 +45,7 @@ const CalendarComponent = () => {
   const [updatedTitle, setUpdatedTitle] = useState('');
   const [updatedDescription, setUpdatedDescription] = useState('');
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const API_URL = import.meta.env.VITE_APP_API_URL;
 
 
   const openModal = (event) => {
@@ -72,7 +73,7 @@ const CalendarComponent = () => {
     };
 
     try {
-      const response = await fetch(`http://localhost:5000/api/${currentEvent.tipo === 'tarea' ? 'tareas' : 'reuniones'}/${currentEvent.id}`, {
+      const response = await fetch(`${API_URL}api/${currentEvent.tipo === 'tarea' ? 'tareas' : 'reuniones'}/${currentEvent.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -97,10 +98,10 @@ const CalendarComponent = () => {
   const fetchEvents = async () => {
     try {
       const [reunionesResponse, tareasResponse] = await Promise.all([
-        fetch('http://localhost:5000/api/reuniones', {
+        fetch(`${API_URL}api/users/reuniones`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
-        fetch('http://localhost:5000/api/tareas', {
+        fetch(`${API_URL}api/users/tareas`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
       ]);
@@ -163,7 +164,7 @@ const CalendarComponent = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const url = tipoEvento === 'reunion' ? 'http://localhost:5000/api/reuniones' : 'http://localhost:5000/api/tareas';
+    const url = tipoEvento === 'reunion' ? `${API_URL}api/users/reuniones` : `${API_URL}api/users/tareas`;
 
     const newEvent =
       tipoEvento === 'reunion'
@@ -211,7 +212,7 @@ const CalendarComponent = () => {
     if (!window.confirm("¿Seguro que deseas eliminar este evento?")) return;
   
     try {
-      const response = await fetch(`http://localhost:5000/api/${event.tipo === 'tarea' ? 'tareas' : 'reuniones'}/${event.id}`, {
+      const response = await fetch(`${API_URL}/api/${event.tipo === 'tarea' ? 'tareas' : 'reuniones'}/${event.id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });

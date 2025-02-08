@@ -11,6 +11,7 @@ function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');  // Corregir la declaración de estado
+  const API_URL = import.meta.env.VITE_APP_API_URL;
 
   // Manejo del envío del formulario
   const handleSubmit = async (e) => {
@@ -22,7 +23,7 @@ function Register() {
     }
   
     try {
-      const response = await fetch('http://localhost:5000/api/users/register', {
+      const response = await fetch(`${API_URL}api/users/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
