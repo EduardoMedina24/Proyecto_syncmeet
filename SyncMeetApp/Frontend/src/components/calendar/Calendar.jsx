@@ -37,8 +37,9 @@ const CalendarComponent = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [tipoEvento, setTipoEvento] = useState('reunion');
-  const [colorTarea, setColorTarea] = useState('#19bff7');
-  const [colorReunion, setColorReunion] = useState('#4CAF50');
+  const [colorTarea, setColorTarea] = useState(localStorage.getItem('colorTarea') || '#19bff7');
+  const [colorReunion, setColorReunion] = useState(localStorage.getItem('colorReunion') || '#4CAF50');
+  
   const token = localStorage.getItem('token');
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [currentEvent, setCurrentEvent] = useState(null);
@@ -46,6 +47,17 @@ const CalendarComponent = () => {
   const [updatedDescription, setUpdatedDescription] = useState('');
   const [selectedEvent, setSelectedEvent] = useState(null);
   const API_URL = import.meta.env.VITE_APP_API_URL;
+
+  const handleColorChange = (tipo, color) => {
+    if (tipo === 'tarea') {
+      setColorTarea(color);
+      localStorage.setItem('colorTarea', color);
+    } else {
+      setColorReunion(color);
+      localStorage.setItem('colorReunion', color);
+    }
+  };
+
 
 
   const openModal = (event) => {
@@ -93,6 +105,7 @@ const CalendarComponent = () => {
       console.error('Error al actualizar evento:', error);
     }
   };
+
  
   
   const fetchEvents = async () => {
@@ -295,7 +308,7 @@ const CalendarComponent = () => {
         <div className="color-select-container">
           <div>
             <label>Tarea Color: </label>
-            <select value={colorTarea} onChange={(e) => setColorTarea(e.target.value)}>
+            <select value={colorTarea} onChange={(e) => handleColorChange('tarea', e.target.value)}>
               <option value="#19bff7">Azul Claro</option>
               <option value="#ff0000">Rojo</option>
               <option value="#ff5733">Naranja</option>
@@ -308,7 +321,7 @@ const CalendarComponent = () => {
           </div>
           <div>
             <label>Reunión Color: </label>
-            <select value={colorReunion} onChange={(e) => setColorReunion(e.target.value)}>
+            <select value={colorReunion} onChange={(e) => handleColorChange('reunion', e.target.value)}>
               <option value="#4CAF50">Verde</option>
               <option value="#ff0000">Rojo</option>
               <option value="#ff5733">Naranja</option>
